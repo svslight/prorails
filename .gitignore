@@ -6,7 +6,11 @@
 
 # Ignore bundler config.
 /.bundle
+
+# Ignore gems
 /vendor/bundle
+
+# Ignore
 /.vscode
 
 # Ignore all logfiles and tempfiles.
