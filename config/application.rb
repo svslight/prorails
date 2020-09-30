@@ -18,7 +18,6 @@ module Prorails
   
     # Setting up a Rails generator for controllers
     config.generators do |g|
-      # Настройка для rspec
       g.test_framework :rspec,
                         view_specs: false,
                         helper_specs: false,
