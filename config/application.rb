@@ -16,6 +16,7 @@ module Prorails
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
   
+    # Setting up a Rails generator for controllers
     config.generators do |g|
       # Настройка для rspec
       g.test_framework :rspec,
