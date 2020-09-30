@@ -112,10 +112,23 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.title).to eq 'MyString'
         expect(question.body).to eq 'MyText'
       end
-      
+
       it 're-renders edit' do
         expect(response).to render_template :edit
       end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    let!(:question) { create(:question) }
+ 
+    it 'deletes the question' do
+      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+    end
+
+    it 'redirects to index' do
+      delete :destroy, params: { id: question }
+      expect(response).to redirect_to questions_path
     end
   end
 end
