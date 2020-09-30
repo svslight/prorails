@@ -56,10 +56,6 @@ RSpec.describe QuestionsController, type: :controller do
     context 'with valid attributes' do
       it 'save a new question in the database' do    
         count = Question.count
-        
-        # чтобы не вручную передавать атрибуты, воспльзуемся фабрикой (FactoryBot)
-        # у FactoryBot есть атрибут (attributes_for)- 
-        # он возвращает в качестве хеша параметры из /spec/factories/questions.rb
 
         # post :create, params: { question: { title: '123', body: '123' } }                
         # post :create, params: { question: attributes_for(:question) } 
@@ -73,24 +69,53 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end  
 
-    # что происходит если пришли invalid атрибуты
     context 'with invalid attributes' do
-
-      # нужно проверить что запрос POST create не меняет кол-во
-      # и здест д.б. не валидные параметры, а attributes_for(:question) - вернет валидный параметр
-      # поэтому используем фабрику questions.rb - там нужно найти невалидный question
-      # и используем механизм trait и внутри которого можем добавить
-      # метод нестандартной фабрики
-
       it 'does not save the question' do
         expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
       end
 
-      # повторно рендерится форма чтобы показать ошибки валидации
       it 're-renders new view' do
         post :create, params: { question: attributes_for(:question, :invalid) }
-        expect(response).to render_template :new # проверяем что был отрендерин вид new
+        expect(response).to render_template :new 
       end      
+    end
+  end
+
+  describe 'PATCH #update' do
+    context 'with valid attributes' do
+      
+      it 'assigns the requested question to @question' do
+        patch :update, params: { id: question, question: attributes_for(:question) }
+        expect(assigns(:question)).to eq question
+      end
+           
+      it 'changes question attributes' do
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }
+        question.reload
+
+        expect(question.title).to eq 'new title'
+        expect(question.body).to eq 'new body' 
+      end
+
+      it 'redirects to updated question' do
+        patch :update, params: { id: question, question: attributes_for(:question) }
+        expect(response).to redirect_to question
+      end
+    end
+
+    context 'with invalid attributes' do
+      before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
+
+      it 'does not change quetion' do
+        question.reload
+        
+        expect(question.title).to eq 'MyString'
+        expect(question.body).to eq 'MyText'
+      end
+      
+      it 're-renders edit' do
+        expect(response).to render_template :edit
+      end
     end
   end
 end
