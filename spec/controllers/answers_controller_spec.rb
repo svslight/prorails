@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
+  let(:question) { create(:question) }
+
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'save a new answer in the database' do
