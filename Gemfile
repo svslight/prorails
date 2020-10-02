@@ -29,6 +29,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'diff-lcs', '~> 1.2.5'
 gem 'slim-rails'
+gem 'devise'
 
 # Helper for creating declarative interfaces in controllers
 gem 'decent_exposure', '3.0.0'
@@ -57,6 +58,7 @@ group :test do
   gem 'webdrivers'
   gem 'shoulda-matchers'
   gem 'rails-controller-testing'
+  gem 'launchy'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
