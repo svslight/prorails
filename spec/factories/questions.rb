@@ -4,7 +4,7 @@ FactoryBot.define do
     # body { "MyText" }
 
     sequence(:title) { |n| "Title#{n}" }
-    sequence(:body) { |n| "Body#{n}" }
+    sequence(:body) { |n| "Question Body#{n}" }
 
     trait :invalid do
       title {nil}      
