@@ -5,8 +5,6 @@ feature 'User can sign up', %q(
   I'd like to be able to sign up
 ) do
 
-  # given(:user) { create(:user) }
-
   background { visit new_user_registration_path }
 
   scenario 'User successfully signs up' do
