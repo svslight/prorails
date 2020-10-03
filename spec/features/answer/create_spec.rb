@@ -14,7 +14,6 @@ feature 'User can create answer', %q{
       sign_in(user)  
 
       visit question_path(question)
-
     end
 
     scenario 'post answer' do
