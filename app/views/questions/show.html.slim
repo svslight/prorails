@@ -2,3 +2,7 @@ h1= question.title
 p= question.body
 
 = render question.answers
+
+= render 'shared/errors', resource: answer
+
+= render 'answers/new', answer: question.answers.new
