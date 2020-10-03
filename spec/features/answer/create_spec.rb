@@ -29,8 +29,7 @@ feature 'User can create answer', %q{
       click_on 'Reply'
 
       expect(page).to have_content "Body can't be blank"
-    end 
-
+    end
   end
 
   scenario 'Unauthenticated user tries to post answer'do
@@ -39,5 +38,4 @@ feature 'User can create answer', %q{
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
-
 end
