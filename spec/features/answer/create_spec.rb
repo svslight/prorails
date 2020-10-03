@@ -11,8 +11,7 @@ feature 'User can create answer', %q{
 
   describe 'Authenticated user' do
     background  do
-      sign_in(user)
-      # sign_in(create(:user))
+      sign_in(user)  
 
       visit question_path(question)
 
@@ -23,8 +22,6 @@ feature 'User can create answer', %q{
       click_on 'Reply'
 
       expect(page).to have_content 'Your answer successfully created.' 
-      expect(page).to have_content question.title
-      expect(page).to have_content question.body
       expect(page).to have_content 'answer text'
     end
 
