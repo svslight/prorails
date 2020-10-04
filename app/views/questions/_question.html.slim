@@ -1,3 +1,4 @@
--if question.persisted?
-  p id = "question_#{question.id}"
-    = question.title
+p id = "question_#{question.id}"
+  = question.title
+  - if current_user&.author?(question)
+    = link_to 'Delete', question, method: :delete
