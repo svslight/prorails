@@ -6,7 +6,11 @@
 
 # Ignore bundler config.
 /.bundle
+
+# Ignore gems
 /vendor/bundle
+
+# Ignore
 /.vscode
 
 # Ignore all logfiles and tempfiles.
@@ -30,3 +34,10 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 /config/database.yml
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
