@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe AnswersController, type: :controller do
-  let(:question) { create(:question) }
-  let(:author) { create(:user) }  
+RSpec.describe AnswersController, type: :controller do  
+  let(:user_author) { create(:user) }
+  let(:question) { create(:question, author: user_author) }
 
   describe 'POST #create' do
-    before { login(user) }
+    before { login(user_author) }
 
     context 'with valid attributes' do      
 
