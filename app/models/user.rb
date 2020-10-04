@@ -3,4 +3,12 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
+  has_many :author_questions, foreign_key: 'author_id', class_name: 'Question'
+  has_many :author_answers, foreign_key: 'author_id', class_name: 'Answer'
+
+  def author?(resource)
+    id == resource.author_id
+  end
+
 end
