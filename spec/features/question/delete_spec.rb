@@ -5,21 +5,21 @@ feature 'User can delete his question', %q(
   I would like to be able to delete my question
 ) do
 
-  given(:author) { create(:user) }
-  given!(:question) { create(:question, author: author) }
+  given(:user_author) { create(:user) }
+  given!(:question) { create(:question, author: user_author) }
 
   given(:other_user) { create(:user) }
   given!(:other_question) { create(:question, author: other_user) }
 
   describe 'Authenticated user' do
     background do
-      sign_in(author)
+      sign_in(user_author)
     end
 
     scenario 'can delete his question' do
       expect(page).to have_content question.title
   
-      click_on  'Delete'
+      click_on 'Delete'
   
       expect(page).to have_content 'Your question was successfully deleted.'
       expect(page).not_to have_content question.title

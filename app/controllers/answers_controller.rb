@@ -1,7 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
 
-  # expose :answers, ->{ Answer.all }
   expose :answer
   expose :question , -> { Question.find(params[:question_id]) }
 
