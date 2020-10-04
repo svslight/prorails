@@ -6,12 +6,12 @@ feature 'User can create answer', %q{
   I'd like to be able to leave a answer
 } do
 
-  given(:user) { create(:user) }
-  given(:question) { create(:question) }
+  given(:user_author) { create(:user) }
+  given(:question) { create(:question, author: user_author) }
 
   describe 'Authenticated user' do
     background  do
-      sign_in(user)  
+      sign_in(user_author)  
 
       visit question_path(question)
     end
