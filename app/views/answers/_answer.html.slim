@@ -1,4 +1,6 @@
 -if answer.persisted?
   p id ="answer_#{answer.id}"
     = answer.body
+  - if current_user&.author?(answer)
+    = link_to 'Delete', answer, method: :delete
     
