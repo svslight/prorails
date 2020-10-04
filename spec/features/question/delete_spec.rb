@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'User can delete his question', %q(
+feature 'Authorized user can delete his question', %q(
   As an author of the question
   I would like to be able to delete my question
 ) do
@@ -11,7 +11,7 @@ feature 'User can delete his question', %q(
   given(:other_user) { create(:user) }
   given!(:other_question) { create(:question, author: other_user) }
 
-  describe 'Authenticated user' do
+  describe 'Authorized user' do
     background do
       sign_in(user_author)
     end
@@ -33,7 +33,7 @@ feature 'User can delete his question', %q(
     end
   end
   
-  describe 'Unauthenticated user' do
+  describe 'Unauthorized user' do
     scenario 'trying to delete question' do
       visit questions_path
       within("#question_#{question.id}") do
