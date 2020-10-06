@@ -5,14 +5,9 @@ class AnswersController < ApplicationController
   expose :question , -> { Question.find(params[:question_id]) }
 
   def create
-    @exposed_answer = question.answers.new(answer_params)
-    answer.author = current_user
-
-    if answer.save
-      redirect_to question, notice: 'Your answer successfully created.'
-    else
-      render 'questions/show'
-    end
+    # @exposed_answer = question.answers.create(answer_params)
+    # answer.author = current_user
+    @exposed_answer = question.answers.create(answer_params.merge(author_id: current_user.id))
   end
 
   def destroy
