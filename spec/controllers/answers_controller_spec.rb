@@ -5,9 +5,10 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question, author: user_author) }
 
   describe 'POST #create' do
+    before { login(user_author) }
 
     context 'with valid attributes' do
-      before { login(user_author) }     
+      # before { login(user_author) }     
 
       it 'save a new answer in the database' do
         expect { post :create, params: { question_id: question, answer: attributes_for(:answer), format: :js } }.to change(question.answers, :count).by(1)
@@ -20,7 +21,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid attributes' do
-      before { login(user_author) }
+      # before { login(user_author) }
 
       it 'does not save the answer' do
         expect { post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }, format: :js }.to_not change(Answer, :count)
@@ -33,4 +34,36 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
   
+  describe 'PATCH #update' do
+  before { login(user_author) }
+
+    let!(:answer) { create(:answer, question: question, author: user_author ) }
+
+    context 'with valid attributes' do
+      it 'changes answer attributes' do
+        patch :update, params: { id: answer, answer: attributes_for(:answer) }, format: :js
+        answer.reload
+        expect(answer.body).to eq answer.body
+      end
+
+      it 'renders update view' do
+        patch :update, params: { id: answer, answer: attributes_for(:answer) }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'does not change answer attributes' do
+        expect do
+          patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
+        end.to_not change(answer, :body)
+      end
+
+      it 'renders update view' do
+        patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+  end  
+
 end
