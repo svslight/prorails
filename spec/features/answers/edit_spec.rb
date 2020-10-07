@@ -50,7 +50,7 @@ feature 'User can edit his answer', %q{
     end
 
     scenario "tries to edit other user's question" do
-      within "#answer_#{other_answer.id}" do
+      within "#answer-#{other_answer.id}" do
         expect(page).to_not have_link 'Edit'
       end
     end
