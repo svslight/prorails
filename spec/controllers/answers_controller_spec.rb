@@ -8,8 +8,6 @@ RSpec.describe AnswersController, type: :controller do
     before { login(user_author) }
 
     context 'with valid attributes' do
-      # before { login(user_author) }     
-
       it 'save a new answer in the database' do
         expect { post :create, params: { question_id: question, answer: attributes_for(:answer), format: :js } }.to change(question.answers, :count).by(1)
       end
@@ -20,9 +18,7 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    context 'with invalid attributes' do
-      # before { login(user_author) }
-
+    context 'with invalid attributes' do  
       it 'does not save the answer' do
         expect { post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }, format: :js }.to_not change(Answer, :count)
       end
@@ -35,7 +31,7 @@ RSpec.describe AnswersController, type: :controller do
   end
   
   describe 'PATCH #update' do
-  before { login(user_author) }
+    before { login(user_author) }
 
     let!(:answer) { create(:answer, question: question, author: user_author ) }
 
