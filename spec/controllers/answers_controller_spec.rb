@@ -79,12 +79,18 @@ RSpec.describe AnswersController, type: :controller do
         delete :destroy, params: { id: answer }, format: :js
         expect(response).to render_template :destroy
       end
-
     end
 
-    context 'Not author'
-    it 'tries delete the answer'
-    it 'renders destroy view'
+    context 'Not author' do
+      it 'tries delete the answer' do
+        expect { delete :destroy, params: { id: other_answer }, format: :js }.not_to change(Answer, :count)
+      end
+
+      it 'renders destroy view' do
+        delete :destroy, params: { id: other_answer }, format: :js
+        expect(response).to render_template :destroy
+      end
+    end
   end
 
 end
