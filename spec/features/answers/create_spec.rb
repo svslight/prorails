@@ -19,9 +19,6 @@ feature 'User can create answer', %q{
       fill_in 'Your answer', with: 'My answer'
       click_on 'Create'
 
-      # expect(page).to have_content 'Your answer successfully created.' 
-      # expect(page).to have_content 'My answer'
-
       expect(current_path).to eq question_path(question)
       within '.answers' do # чтобы убедиться, что ответ в списке, а не в форме
         expect(page).to have_content 'My answer'
@@ -29,7 +26,6 @@ feature 'User can create answer', %q{
     end
 
     scenario 'creates answer with errors' do
-      # sign_in(user_author)
       visit question_path(question)
       click_on 'Create'
 
