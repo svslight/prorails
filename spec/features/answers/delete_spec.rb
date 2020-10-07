@@ -23,12 +23,11 @@ feature 'User can delete his answer', %q(
 
       click_on 'Delete'
 
-      # expect(page).to have_content 'Your answer has been deleted.'
       expect(page).not_to have_content answer.body
     end
 
     scenario 'wants to delete another user answer' do
-      within("#answer_#{other_answer.id}") do
+      within("#answer-#{other_answer.id}") do
         expect(page).to have_content other_answer.body
         expect(page).to_not have_link 'Delete'
       end
@@ -38,7 +37,7 @@ feature 'User can delete his answer', %q(
   describe 'Unauthenticated user' do
     scenario 'trying to delete answer' do
       visit question_path(question)
-      within("#answer_#{answer.id}") do
+      within("#answer-#{answer.id}") do
         expect(page).to have_content answer.body
         expect(page).to_not have_link 'Delete'
       end
