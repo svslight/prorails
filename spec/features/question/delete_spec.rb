@@ -27,7 +27,7 @@ feature 'Authorized user can delete his question', %q(
 
     scenario 'wants to delete another user question' do
       within("#question_#{other_question.id}") do
-        expect(page).to have_content other_question.title
+        expect(page).to have_content question.title
         expect(page).to_not have_link 'Delete'
       end    
     end

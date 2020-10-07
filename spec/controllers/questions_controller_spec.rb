@@ -49,7 +49,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'renders update view' do
         patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
-        expect(response).to render_template :update   # redirect_to question
+        expect(response).to render_template :update
       end
     end
 
@@ -64,7 +64,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'renders update view' do
-        expect(response).to render_template :update   # :edit
+        expect(response).to render_template :update
       end
     end
   end
