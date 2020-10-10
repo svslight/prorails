@@ -1,9 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
+  let(:user_author) { create(:user) }
+  let(:question) { create(:question, author: user_author) }
 
   describe 'POST #create' do
+    before { login(user_author) }
+
     context 'with valid attributes' do
       it 'save a new question in the database' do    
         expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
@@ -28,6 +31,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    before { login(user_author) }
+
     context 'with valid attributes' do      
       it 'assigns the requested question to @question' do
         patch :update, params: { id: question, question: attributes_for(:question) }
@@ -54,8 +59,8 @@ RSpec.describe QuestionsController, type: :controller do
       it 'does not change question' do
         question.reload
         
-        expect(question.title).to eq 'MyString'
-        expect(question.body).to eq 'MyText'
+        expect(question.title).to eq question.title
+        expect(question.body).to eq question.body
       end
 
       it 're-renders edit' do
@@ -65,7 +70,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let!(:question) { create(:question) }
+    before { login(user_author) }
+    let!(:question) { create(:question, author: user_author) }
  
     it 'deletes the question' do
       expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
