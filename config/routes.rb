@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
-
+  root to: "questions#index"
   devise_for :users
-  root to: "questions#index" 
 
   resources :questions, shallow: true do
-    resources :answers, except: :index
-  end
+    resources :answers, except: :index do
+      post :mark_best, on: :member
+    end
+  end   
 end

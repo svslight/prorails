@@ -1,8 +1,15 @@
 h1= question.title
 p= question.body
 
-= render question.answers
+.answer-errors
+  = render 'shared/errors', resource: answer
 
-= render 'shared/errors', resource: answer
+.answers
+  = render question.answers.sort_by_best
 
-= render 'answers/new', answer: question.answers.new
+= form_with model: [question, answer], class: 'new-answer' do |f|
+  = f.label :body, 'Your answer'
+  = f.text_area :body
+  = f.submit 'Create'
+
+/ = render 'answers/new', answer: question.answers.new

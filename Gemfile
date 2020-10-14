@@ -12,7 +12,8 @@ gem 'puma', '~> 4.1'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem 'webpacker', '~> 4.0'
+# gem 'webpacker', '~> 4.0'
+gem 'uglifier', '>= 1.3.0'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -30,6 +31,9 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'diff-lcs', '~> 1.2.5'
 gem 'slim-rails'
 gem 'devise'
+gem 'twitter-bootstrap-rails'
+gem 'bootstrap', '~> 4.2.1'
+gem 'jquery-rails'
 
 # Helper for creating declarative interfaces in controllers
 gem 'decent_exposure', '3.0.0'
@@ -55,6 +59,7 @@ group :test do
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
+  # gem 'chromedriver-helper'
   gem 'webdrivers'
   gem 'shoulda-matchers'
   gem 'rails-controller-testing'
