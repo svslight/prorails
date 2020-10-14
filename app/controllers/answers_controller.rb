@@ -5,22 +5,15 @@ class AnswersController < ApplicationController
   expose :question, -> { Question.find(params[:question_id]) }
 
   def create
-    # @exposed_answer = question.answers.create(answer_params)
-    # answer.author = current_user
     @exposed_answer = question.answers.create(answer_params.merge(author_id: current_user.id))
   end
 
   def update
-    # answer = Answer.find(params[:id])
-    # @answer.update(answer_params)
-    # @question = @answer.question
-
     answer.update(answer_params) if current_user.author?(answer)
     @exposed_question = answer.question
   end
 
   def destroy
-    @id = answer.id
     answer.destroy if current_user.author?(answer)
   end
 

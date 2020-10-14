@@ -21,10 +21,7 @@ RSpec.describe Answer, type: :model do
       end
   
       it 'mark best == false' do
-        answer.mark_best
-        expect(answer).to be_best
-        answer.mark_best
-        expect(answer).not_to be_best
+        expect(other_answer).to_not be_best
       end
   
       it 'only one answer may be the best' do

@@ -7,10 +7,10 @@ class Answer < ApplicationRecord
   scope :sort_by_best, -> { order best: :desc }
 
   def mark_best
-    other_best_answer = question.answers.where(best: true).first
+    other_best_answer = question.answers.update_all(best: false)
+
     transaction do
-      other_best_answer&.update!(best: false)
-      update!(best: !best)
+      update(best: !best)
     end
   end
 end
