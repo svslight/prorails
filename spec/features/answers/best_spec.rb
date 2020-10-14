@@ -16,10 +16,11 @@ feature 'The author can choose the best answer', %q{
     expect(page).to_not have_link 'Best answer'
   end
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     scenario 'can choose the best answer if user owner of the question' do
       sign_in(user_author)
       visit question_path(question)
+      
       within "#answer-#{answer.id}" do
         expect(page).not_to have_content 'Best answer!'
         click_on 'Best answer'

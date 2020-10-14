@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do  
   let(:user_author) { create(:user) }
   let(:question) { create(:question, author: user_author) }
+  let!(:answer) { create(:answer, question: question, author: user_author ) }
+
+  let!(:other_user) { create(:user) }
+  let!(:other_answer) { create(:answer, question: question, author: other_user) }
 
   describe 'POST #create' do
     before { login(user_author) }
@@ -33,8 +37,6 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #update' do
     before { login(user_author) }
 
-    let!(:answer) { create(:answer, question: question, author: user_author ) }
-
     context 'with valid attributes' do
       it 'changes answer attributes' do
         patch :update, params: { id: answer, answer: attributes_for(:answer) }, format: :js
@@ -63,12 +65,6 @@ RSpec.describe AnswersController, type: :controller do
   end
   
   describe 'DELETE #destroy' do
-    let!(:question) { create(:question, author: user_author) }
-    let!(:answer) { create(:answer, question: question, author: user_author) }
-
-    let!(:other_user) { create(:user) }
-    let!(:other_answer) { create(:answer, question: question, author: other_user) }
-
     before { login(user_author) }
 
     context 'Author' do
@@ -93,4 +89,32 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  describe 'POST #best_answer' do 
+    
+    context 'Owner question' do
+      before { login(user_author) }   
+      before { post :mark_best, params: { id: answer }, format: :js }
+
+      it 'trying choose best answer' do
+        expect { answer.reload }.to change { answer.best }.from(false).to(true)
+      end
+
+      it 'renders best template' do
+        expect(response).to render_template :mark_best
+      end
+    end
+
+    context 'Not owner question is trying choose answer as best' do
+      before { login(other_user) }
+      before { post :mark_best, params: { id: answer }, format: :js }
+
+      it 'trying choose best answer' do
+        expect { answer.reload }.not_to change(answer, :best)
+      end
+
+      it 'renders best template' do
+        expect(response).to render_template :mark_best
+      end
+    end
+  end
 end
