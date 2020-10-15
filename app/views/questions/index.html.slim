@@ -1,7 +1,16 @@
-p= link_to 'Ask question', new_question_path
+.bg-light.border-bottom
+  .row.d-flex.align-items-center.py-3
+    .col-1
+    .col-5
+      h2 A list of questions
+    .col-3
+      nav.nav.justify-content-end
+        = link_to 'Ask question', new_question_path, class: 'btn btn-success'
+    / .col-1
 
-.question-errors
-  = render 'shared/errors', resource: question
+ul.list-group.list-group-flush
+  .question-errors
+    = render 'shared/errors', resource: question
 
-.questions
-  = render questions
+  .questions
+    = render questions
