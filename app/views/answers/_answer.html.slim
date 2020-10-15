@@ -12,8 +12,16 @@ li.list-group-item id = "answer-#{answer.id}"
           p= link_to file.filename.to_s, url_for(file)
 
       = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
-        = f.label :body, 'Your answer'
-        = f.text_area :body, class: 'form-control'
+        .form-group
+          = f.label :body, 'Your answer'
+          = f.text_area :body, class: 'form-control'
+        .form-group
+          = f.label :files
+          = f.file_field :files, multiple: true, direct_upload: true
+        - if answer.files.attached?
+          - answer.files.each do |file|
+            div class = "attached_file_id_#{file.id}"
+              p = link_to file.filename.to_s, url_for(file)
         = f.submit 'Save', class: 'btn btn-info'
 
     .col-4
