@@ -23,7 +23,7 @@ li.list-group-item id = "question-#{question.id}"
           = f.file_field :files, multiple: true
         = f.submit 'Save', class: 'btn btn-success'
 
-    .col-7
+    .col-8
       - if current_user&.author?(question)
         nav.nav.justify-content-end
           = link_to 'Show', question, class: 'btn btn-info mr-4'
