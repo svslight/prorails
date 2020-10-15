@@ -2,7 +2,8 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
 
   expose :questions, -> { Question.all }
-  expose :question
+  # expose :question, scope: -> { Question.with_attached_files }
+  expose :question, -> { params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new }
   expose :answer, -> { Answer.new }
 
   def create
@@ -30,9 +31,9 @@ class QuestionsController < ApplicationController
 
   private
   
-  def load_question
-    question = Question.with_attached_files.find(params[:id])
-  end
+  # def load_question
+  #   @question = Question.with_attached_files.find(params[:id])
+  # end
 
   def question_params
     params.require(:question).permit(:title, :body, files: [])

@@ -9,19 +9,23 @@ li.list-group-item id = "answer-#{answer.id}"
 
       - if answer.files.attached?
         - answer.files.each do |file|
-          p= link_to file.filename.to_s, url_for(file)
+          div class = "attached-file-#{file.id}"
+            p= link_to file.filename.to_s, url_for(file)
 
       = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
         .form-group
           = f.label :body, 'Your answer'
           = f.text_area :body, class: 'form-control'
-        .form-group
-          = f.label :files
-          = f.file_field :files, multiple: true, direct_upload: true
+          
         - if answer.files.attached?
           - answer.files.each do |file|
-            div class = "attached_file_id_#{file.id}"
-              p = link_to file.filename.to_s, url_for(file)
+            div class = "attached-file-#{file.id}"
+              p= link_to file.filename.to_s, url_for(file)
+              - if current_user&.author?(answer)
+                p= link_to 'Delete File', attachment_path(file), method: :delete, remote: true, class: 'text-danger'
+        .form-group
+          = f.label :files, class: 'mr-2'
+          = f.file_field :files, multiple: true, direct_upload: true
         = f.submit 'Save', class: 'btn btn-info'
 
     .col-4
