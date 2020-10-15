@@ -6,5 +6,7 @@ Rails.application.routes.draw do
     resources :answers, except: :index do
       post :mark_best, on: :member
     end
-  end   
+  end
+  
+  resources :attachments, only: :destroy
 end
