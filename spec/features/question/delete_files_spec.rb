@@ -30,7 +30,11 @@ feature 'Author can delete files attached to their question', %q{
       expect(page).not_to have_link 'spec_helper.rb'
     end
 
-    scenario 'cannot delete attached file if not author'
-
+    scenario 'cannot delete attached file if not author' do
+      other_question.files.attach(io: File.open("#{Rails.root}/spec/spec_helper.rb"), filename: 'spec_helper.rb')
+    
+      visit questions_path
+      expect(page).to_not have_link 'Save'
+    end
   end
 end
