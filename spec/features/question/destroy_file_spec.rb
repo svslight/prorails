@@ -12,7 +12,7 @@ feature 'Author can delete files attached to their question', %q{
 
   scenario 'Unauthenticated user cannot delete attached file' do
     visit questions_path
-    expect(page).to_not have_link 'Edit'
+    expect(page).not_to have_link 'Edit'
   end
 
   describe 'Authenticated user', js: true do
@@ -21,7 +21,6 @@ feature 'Author can delete files attached to their question', %q{
     end
     
     scenario 'delete attached file from his question' do
-      # attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
       question.files.attach(io: File.open("#{Rails.root}/spec/spec_helper.rb"), filename: 'spec_helper.rb')
       visit questions_path
 
@@ -34,7 +33,7 @@ feature 'Author can delete files attached to their question', %q{
       other_question.files.attach(io: File.open("#{Rails.root}/spec/spec_helper.rb"), filename: 'spec_helper.rb')
     
       visit questions_path
-      expect(page).to_not have_link 'Save'
+      expect(page).not_to have_link 'Save'
     end
   end
 end

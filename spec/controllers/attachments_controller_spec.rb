@@ -16,7 +16,7 @@ RSpec.describe AttachmentsController, type: :controller do
         expect { delete :destroy, params: { id: question.files.first }, format: :js }.to change(question.files,	:count).by(-1)
       end
 
-      it 'deletes not his attached file' do
+      it 'not deletes not his file' do
         expect { delete :destroy, params: { id: other_question.files.first }, format: :js }.to_not change(question.files, :count)
       end
     end
