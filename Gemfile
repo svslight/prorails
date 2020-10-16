@@ -34,6 +34,7 @@ gem 'devise'
 # gem 'twitter-bootstrap-rails'
 gem 'bootstrap', '~> 4.2.1'
 gem 'jquery-rails'
+gem 'aws-sdk-s3', require: false
 
 # Helper for creating declarative interfaces in controllers
 gem 'decent_exposure', '3.0.0'

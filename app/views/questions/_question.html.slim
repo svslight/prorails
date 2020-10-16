@@ -22,10 +22,9 @@ li.list-group-item id = "question-#{question.id}"
           = f.label :files, class: 'mr-2'
           = f.file_field :files, multiple: true
         = f.submit 'Save', class: 'btn btn-success'
-
     .col-8
-      - if current_user&.author?(question)
-        nav.nav.justify-content-end
-          = link_to 'Show', question, class: 'btn btn-info mr-4'
+      nav.nav.justify-content-end
+        = link_to 'Show', question, class: 'btn btn-info mr-4'
+        - if current_user&.author?(question)
           = link_to 'Edit', '#', class: 'edit-question-link btn btn-info mr-4', data: { question_id: question.id }
           = link_to 'Delete', question, method: :delete, class: 'btn btn-info'   

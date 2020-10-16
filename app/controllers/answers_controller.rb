@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
 
-  expose :answer, -> { params[:id] ? Answer.with_attached_files.find(params[:id]) : Answer.new }
+  expose :answer
   expose :question, -> { Question.find(params[:question_id]) }
 
   def create
@@ -24,10 +24,6 @@ class AnswersController < ApplicationController
   end
 
   private
-
-  # def load_answer
-  #   @answer = Answer.with_attached_files.find(params[:id])
-  # end
 
   def answer_params
     params.require(:answer).permit(:body, files: [])
