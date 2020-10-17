@@ -6,6 +6,11 @@ li.list-group-item id = "answer-#{answer.id}"
           span.badge.badge-success.mr-4
             | Best answer!!!
         = answer.body
+        .links
+          p Links:
+          ul
+            - answer.links.each do |link|
+              li= link_to link.name, link.url
         
       = render partial: 'shared/attachments', locals: { resource: answer, del: false }
       = render 'answers/form', answer: answer

@@ -5,8 +5,7 @@ feature 'User can add links to question', %q{
  As an question's author
  I'd like to be able to add links
 } do
-  # Начальные данные
-  # Ссылку можно прикрепить любую
+
   given(:user) { create(:user) }
   given(:gist_url) { 'https://gist.github.com/svslight/2961d14ca27abfbd66d86c1211d8dba9' }
   given(:user_url) { 'https://google.com' }

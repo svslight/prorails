@@ -17,4 +17,24 @@
     .answers
       = render question.answers.sort_by_best
 
-    = render 'answers/new', answer: question.answers.new
+    = form_with model: [question, answer], class: 'new-answer' do |f|
+      .form-group
+        = f.label :body, 'Your answer'
+        = f.text_area :body, class: 'form-control'
+      .form-group
+        = f.label :files, class: 'mr-2'
+        = f.file_field :files, multiple: true
+
+      p Links:
+      p            
+        = f.fields_for :links do |l| 
+          p
+            = l.label :name, 'Link name'
+            = l.text_field :name
+          p
+            = l.label :url
+            = l.text_field :url
+
+      = f.submit 'Create', class: 'btn btn-success'
+
+    / = render 'answers/new', answer: question.answers.new
