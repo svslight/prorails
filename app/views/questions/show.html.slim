@@ -8,6 +8,12 @@
 
     = render partial: 'shared/attachments', locals: { resource: question, del: false }
 
+    .links
+      p Links:
+      ul
+        - question.links.each do |link|
+          li= link_to link.name, link.url
+
     .answers
       = render question.answers.sort_by_best
 

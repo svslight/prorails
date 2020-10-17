@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
+  before_action -> { question.links.build }, only: [:new, :create]
 
   expose :questions, -> { Question.all }
   expose :question, scope: -> { Question.with_attached_files }  
@@ -31,6 +32,10 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, 
+      :body,
+      files: [],
+      links_attributes: [:name, :url]
+      )
   end
 end

@@ -4,6 +4,15 @@ RSpec.describe QuestionsController, type: :controller do
   let(:user_author) { create(:user) }
   let(:question) { create(:question, author: user_author) }
 
+  describe 'GET #new' do
+    before { login(user_author) }
+    
+    it 'assigns to new questions new link' do
+      get :new
+      expect(assigns(:exposed_question).links.first).to be_a_new(Link)
+    end
+  end
+
   describe 'POST #create' do
     before { login(user_author) }
 
