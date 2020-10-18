@@ -7,7 +7,7 @@ feature 'User can add links to question', %q{
 } do
 
   given(:user_author) { create(:user) }
-  given(:gist_url) { 'https://gist.github.com/svslight/2961d14ca27abfbd66d86c1211d8dba9' }
+  given(:gist_url) { 'https://gist.github.com/svslight/27070131e9bb343b0343770b13cd62de' }
   given(:google_url) { 'https://google.com' }
 
   background do
