@@ -6,11 +6,20 @@ li.list-group-item id = "answer-#{answer.id}"
           span.badge.badge-success.mr-4
             | Best answer!!!
         = answer.body
+
+      - if answer.links.present?
         .links
           p Links:
           ul
             - answer.links.each do |link|
-              li= link_to link.name, link.url
+              li class = "link-#{link.id}"
+                - if link.gist?
+                  p.badge.badge-primary.mr-2 Gist Text:
+                  = link.gist_content
+                - else
+                  = link_to link.name, link.url
+                - if current_user&.author?(answer)
+                  p= link_to 'Delete Link', link_path(link), method: :delete, remote: true
         
       = render partial: 'shared/attachments', locals: { resource: answer, del: false }
       = render 'answers/form', answer: answer

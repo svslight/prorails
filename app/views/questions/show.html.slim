@@ -8,18 +8,20 @@
 
     = render partial: 'shared/attachments', locals: { resource: question, del: false }
 
-    
-    .links.border.p-2
-      h5
-        b Links and Gists:
-      ul
-        - question.links.each do |link|
-          li class = "link-#{link.id}"
-            - if link.gist?
-              p.badge.badge-primary.mr-2 Gist Text:
-              = link.gist_content
-            - else
-              = link_to link.name, link.url
+    - if question.links.present?
+      .links.border.p-2
+        h5
+          b Links and Gists:
+        ul
+          - question.links.each do |link|
+            li class = "link-#{link.id}"
+              - if link.gist?
+                p.badge.badge-primary.mr-2 Gist Text:
+                = link.gist_content
+              - else
+                = link_to link.name, link.url
+              - if current_user&.author?(question)
+                p= link_to 'Delete Link', link_path(link), method: :delete, remote: true
     
     hr
     .answers

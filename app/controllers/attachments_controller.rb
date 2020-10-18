@@ -1,9 +1,13 @@
 class AttachmentsController < ApplicationController
   before_action :authenticate_user!
+
+  expose :attachment, -> { ActiveStorage::Attachment.find(params[:id]) }
   
   def destroy
-    @file = ActiveStorage::Attachment.find(params[:id])      
-    @file.purge if current_user.author?(@file.record)
+    attachment.purge if current_user.author?(attachment.record)
+
+    url = attachment.record_type == 'Answer' ? attachment.record.question : attachment.record
+    redirect_to question_path(url)
   end
 end
   

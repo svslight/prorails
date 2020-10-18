@@ -31,7 +31,7 @@ feature 'User can add links to question', %q{
  
     click_on 'Ask'
  
-    expect(page).to have_link 'My gist', href: gist_url
+    expect(page).to have_content 'Вопрос 1 Ответ 1 Ответ'
     expect(page).to have_link 'My google', href: google_url
   end
 
