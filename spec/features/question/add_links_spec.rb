@@ -8,22 +8,45 @@ feature 'User can add links to question', %q{
 
   given(:user) { create(:user) }
   given(:gist_url) { 'https://gist.github.com/svslight/2961d14ca27abfbd66d86c1211d8dba9' }
-  given(:user_url) { 'https://google.com' }
+  given(:google_url) { 'https://google.com' }
+  given(:fb_url) {'https://www.facebook.com/'}
 
-  scenario 'User adds link when asks question' do
-
+  scenario 'User adds multiple links when asks question', js: true do
     sign_in(user)
     visit new_question_path
  
     fill_in 'question_title', with: 'MyTitle'
     fill_in 'question_body', with: 'MyBody'
 
-    fill_in 'Link name', with: 'My gist'
-    fill_in 'Url', with: gist_url
+    fill_in 'Link name', with: 'My google'
+    fill_in 'Url', with: google_url
+
+    click_on 'Add Links'
+
+    within all('.nested-fields')[1] do
+      fill_in 'Link name', with: 'My fb'
+      fill_in 'Url', with: fb_url
+    end
  
     click_on 'Ask'
  
-    expect(page).to have_link 'My gist', href: gist_url
+    expect(page).to have_link 'My google', href: google_url
+    expect(page).to have_link 'My fb', href: fb_url
+  end
+
+  scenario 'User adds link with invalid URL when asks question', js: true do
+    sign_in(user)
+    visit new_question_path
+
+    fill_in 'Title', with: 'MyTitle'
+    fill_in 'Body', with: 'MyBody'
+
+    fill_in 'Link name', with: 'My gist'
+    fill_in 'Url', with: 'Error'
+
+    click_on 'Ask'
+
+    expect(page).not_to have_content 'Links url is not a valid URL'
   end
 
 end
