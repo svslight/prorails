@@ -1,4 +1,5 @@
 class Link < ApplicationRecord
+
   URL_FORMAT = /\A(http|https):\/\/|[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,5})?(\/.*)?\z/ix
 
   belongs_to :linkable, polymorphic: true
@@ -11,6 +12,6 @@ class Link < ApplicationRecord
   end
 
   def gist_content
-    GistContentService.new(url.split('/').last).content if gist?
-  end
+    Octokit::Client.new.gist(url.split('/').last).files.first[1].content if gist?
+  end  
 end

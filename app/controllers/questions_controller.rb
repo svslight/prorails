@@ -45,7 +45,7 @@ class QuestionsController < ApplicationController
       :title, 
       :body,
       files: [],
-      links_attributes: [:name, :url]
+      links_attributes: [:id, :name, :url, :_destroy]
       )
   end
 end

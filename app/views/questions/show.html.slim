@@ -8,12 +8,20 @@
 
     = render partial: 'shared/attachments', locals: { resource: question, del: false }
 
+    
     .links.border.p-2
-      p Links:
+      h5
+        b Links and Gists:
       ul
         - question.links.each do |link|
-          li= link_to link.name, link.url
-
+          li class = "link-#{link.id}"
+            - if link.gist?
+              p.badge.badge-primary.mr-2 Gist Text:
+              = link.gist_content
+            - else
+              = link_to link.name, link.url
+    
+    hr
     .answers
       = render question.answers.sort_by_best
 

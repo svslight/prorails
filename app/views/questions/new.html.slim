@@ -4,15 +4,17 @@
 
     = render 'shared/errors', resource: question
 
-    = form_with model: question, local: true do |f|
+    p= form_with model: question, local: true do |f|
       .form-group
         = f.label :title
         = f.text_field :title, class: 'form-control'
       .form-group
         = f.label :body
         = f.text_area :body, class: 'form-control'
+
       .form-group
-        = f.label :files, class: 'mr-2'
+        = f.label :files
+        br
         = f.file_field :files, multiple: true
 
       p Links:
