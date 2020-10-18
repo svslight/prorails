@@ -1,15 +1,14 @@
-h1= question.title
-p= question.body
+.row.d-flex.justify-content-center
+  .col-10
+    h1.mt-2 = question.title
+    p= question.body
 
-.answer-errors
-  = render 'shared/errors', resource: answer
+    .answer-errors
+      = render 'shared/errors', resource: answer
 
-.answers
-  = render question.answers.sort_by_best
+    = render partial: 'shared/attachments', locals: { resource: question, del: false }
 
-= form_with model: [question, answer], class: 'new-answer' do |f|
-  = f.label :body, 'Your answer'
-  = f.text_area :body
-  = f.submit 'Create'
+    .answers
+      = render question.answers.sort_by_best
 
-/ = render 'answers/new', answer: question.answers.new
+    = render 'answers/new', answer: question.answers.new

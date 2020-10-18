@@ -1,15 +1,15 @@
-p id = "question-#{question.id}"
-  = question.title
-  = link_to 'Show', question
-  = ' '
-  - if current_user&.author?(question)
-    = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
-    = ' '
-    = link_to 'Delete', question, method: :delete
-    
-= form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
-  = f.label :title, 'Your question'
-  = f.text_field :title
-  = f.label :body, 'Body'
-  = f.text_area :body
-  = f.submit 'Save'
+li.list-group-item id = "question-#{question.id}"
+  .row.d-flex.align-items-center
+    .col-1
+    .col-3
+      = question.title
+
+      = render partial: 'shared/attachments', locals: { resource: question, del: false }
+      = render 'questions/form', question: question
+
+    .col-8
+      nav.nav.justify-content-end
+        = link_to 'Show', question, class: 'btn btn-info mr-4'
+        - if current_user&.author?(question)
+          = link_to 'Edit', '#', class: 'edit-question-link btn btn-info mr-4', data: { question_id: question.id }
+          = link_to 'Delete', question, method: :delete, class: 'btn btn-info'   
