@@ -8,25 +8,44 @@ feature 'User can add links to answer', %q{
 
   given(:user_author) { create(:user) }
   given(:question) { create(:question, author: user_author) }
-  given(:url) { 'https://google.com' }
   given(:gist_url) { 'https://gist.github.com/svslight/2961d14ca27abfbd66d86c1211d8dba9' }
+  given(:google_url) { 'https://google.com' }
+  given(:fb_url) { 'https://www.facebook.com/' }
 
-  scenario 'User adds link when give an question', js: true do
+  background do
     sign_in(user_author)
-
     visit question_path(question)
+  end
 
+  scenario 'User adds multiple links when give an answer', js: true do
     fill_in 'Your answer', with: 'My answer'
 
     fill_in 'Link name', with: 'My gist'
     fill_in 'Url', with: gist_url
+
+    click_on 'Add Links'
+
+    within all('.nested-fields')[1] do
+      fill_in 'Link name', with: 'My fb'
+      fill_in 'Url', with: fb_url
+    end
  
     click_on 'Create'
 
-    # проверяем что ссылки появились на странице в разделе с классом answers
-    # within - добаляем чтобы отличать от ссылок на вопросы
     within '.answers' do
       expect(page).to have_link 'My gist', href: gist_url
+      expect(page).to have_link 'My fb', href: fb_url      
     end    
   end
+
+  scenario 'User adds link with invalid URL when give an answer', js: true do
+    fill_in 'Your answer', with: 'My answer'
+
+    fill_in 'Link name', with: 'My gist'
+    fill_in 'Url', with: 'Error'
+
+    click_on 'Create'
+
+    expect(page).not_to have_content 'Links url is not a valid URL'
+  end 
 end
