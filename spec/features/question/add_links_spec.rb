@@ -6,15 +6,17 @@ feature 'User can add links to question', %q{
  I'd like to be able to add links
 } do
 
-  given(:user) { create(:user) }
+  given(:user_author) { create(:user) }
   given(:gist_url) { 'https://gist.github.com/svslight/2961d14ca27abfbd66d86c1211d8dba9' }
   given(:google_url) { 'https://google.com' }
   given(:fb_url) {'https://www.facebook.com/'}
 
-  scenario 'User adds multiple links when asks question', js: true do
-    sign_in(user)
+  background do
+    sign_in(user_author)
     visit new_question_path
- 
+  end
+
+  scenario 'User adds multiple links when asks question', js: true do
     fill_in 'question_title', with: 'MyTitle'
     fill_in 'question_body', with: 'MyBody'
 
@@ -35,9 +37,6 @@ feature 'User can add links to question', %q{
   end
 
   scenario 'User adds link with invalid URL when asks question', js: true do
-    sign_in(user)
-    visit new_question_path
-
     fill_in 'Title', with: 'MyTitle'
     fill_in 'Body', with: 'MyBody'
 
@@ -48,5 +47,4 @@ feature 'User can add links to question', %q{
 
     expect(page).not_to have_content 'Links url is not a valid URL'
   end
-
 end
