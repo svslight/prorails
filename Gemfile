@@ -36,6 +36,11 @@ gem 'bootstrap', '~> 4.2.1'
 gem 'jquery-rails'
 gem 'aws-sdk-s3', require: false
 gem 'cocoon'
+gem 'validate_url'
+gem "octokit", "~> 4.0"
+gem 'octicons_helper'
+
+
 
 # Helper for creating declarative interfaces in controllers
 gem 'decent_exposure', '3.0.0'
