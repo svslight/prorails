@@ -9,7 +9,6 @@ feature 'User can add links to question', %q{
   given(:user_author) { create(:user) }
   given(:gist_url) { 'https://gist.github.com/svslight/2961d14ca27abfbd66d86c1211d8dba9' }
   given(:google_url) { 'https://google.com' }
-  given(:fb_url) {'https://www.facebook.com/'}
 
   background do
     sign_in(user_author)
@@ -20,20 +19,20 @@ feature 'User can add links to question', %q{
     fill_in 'question_title', with: 'MyTitle'
     fill_in 'question_body', with: 'MyBody'
 
-    fill_in 'Link name', with: 'My google'
-    fill_in 'Url', with: google_url
+    fill_in 'Link name', with: 'My gist'
+    fill_in 'Url', with: gist_url
 
     click_on 'Add Links'
 
     within all('.nested-fields')[1] do
-      fill_in 'Link name', with: 'My fb'
-      fill_in 'Url', with: fb_url
+      fill_in 'Link name', with: 'My google'
+      fill_in 'Url', with: google_url
     end
  
     click_on 'Ask'
  
+    expect(page).to have_link 'My gist', href: gist_url
     expect(page).to have_link 'My google', href: google_url
-    expect(page).to have_link 'My fb', href: fb_url
   end
 
   scenario 'User adds link with invalid URL when asks question', js: true do

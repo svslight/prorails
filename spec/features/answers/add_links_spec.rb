@@ -10,7 +10,6 @@ feature 'User can add links to answer', %q{
   given(:question) { create(:question, author: user_author) }
   given(:gist_url) { 'https://gist.github.com/svslight/2961d14ca27abfbd66d86c1211d8dba9' }
   given(:google_url) { 'https://google.com' }
-  given(:fb_url) { 'https://www.facebook.com/' }
 
   background do
     sign_in(user_author)
@@ -26,15 +25,15 @@ feature 'User can add links to answer', %q{
     click_on 'Add Links'
 
     within all('.nested-fields')[1] do
-      fill_in 'Link name', with: 'My fb'
-      fill_in 'Url', with: fb_url
+      fill_in 'Link name', with: 'My google'
+      fill_in 'Url', with: google_url
     end
  
     click_on 'Create'
 
     within '.answers' do
       expect(page).to have_link 'My gist', href: gist_url
-      expect(page).to have_link 'My fb', href: fb_url      
+      expect(page).to have_link 'My google', href: google_url      
     end    
   end
 
