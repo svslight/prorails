@@ -50,7 +50,7 @@ feature 'User can create question', %q{
       fill_in 'Body', with: 'text text text'
 
       fill_in 'Reward name', with: 'Reward'
-      attach_file 'Add Image', "#{Rails.root}/spec/support/reward.jpg"
+      attach_file 'Add Image', "#{Rails.root}/spec/images/reward.jpg"
       click_on 'Ask'
 
       expect(page).to have_content 'Reward'
