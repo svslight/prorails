@@ -1,13 +1,16 @@
 li.list-group-item id = "question-#{question.id}"
   .row.d-flex.align-items-center
     .col-1
-    .col-3
+    .col-7
       = question.title
 
-      = render partial: 'shared/attachments', locals: { resource: question, del: false }
-      = render 'questions/form', question: question
+      .files.border.p-2
+        b List of Files:
+        = render partial: 'shared/attachments', locals: { resource: question, del: false }
 
-    .col-8
+      = render 'questions/form', question: question      
+
+    .col-4
       nav.nav.justify-content-end
         = link_to 'Show', question, class: 'btn btn-info mr-4'
         - if current_user&.author?(question)

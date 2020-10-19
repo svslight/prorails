@@ -12,16 +12,19 @@
         = f.label :body
         = f.text_area :body, class: 'form-control'
 
-      .form-group
-        = f.label :files
-        br
+      p 
+        b Add Files to the question:
+      .form-group.border.p-2
+        = f.label :files, class: 'mr-2'       
         = f.file_field :files, multiple: true
 
-      p Links:
-      #links
+      p 
+        b Add Links to the question:
+      #links.border.p-2
         = f.fields_for :links do |link|
           = render 'links/link_fields', f: link
         .links
-          = link_to_add_association 'Add Links', f, :links, partial: 'links/link_fields', class: 'my-3 btn btn-success'
+          = link_to_add_association 'Add Links', f, :links, partial: 'links/link_fields', class: 'my-2 btn btn-success'
 
+      br
       p= f.submit 'Ask', class: 'btn btn-success'

@@ -6,24 +6,28 @@
     .answer-errors
       = render 'shared/errors', resource: answer
 
-    = render partial: 'shared/attachments', locals: { resource: question, del: false }
+    .files.border.p-2
+      h5
+        b List of Files to the question:
+      = render partial: 'shared/attachments', locals: { resource: question, del: false }
+    br
 
     - if question.links.present?
       .links.border.p-2
         h5
-          b Links and Gists:
+          b Lists Links to the question:
         ul
           - question.links.each do |link|
             li class = "link-#{link.id}"
               - if link.gist?
-                p.badge.badge-primary.mr-2 Gist Text:
-                = link.gist_content
+                p.badge.badge-primary Gist Text:
+                p= link.gist_content
               - else
                 = link_to link.name, link.url
               - if current_user&.author?(question)
                 p= link_to 'Delete Link', link_path(link), method: :delete, remote: true
     
-    hr
+    br
     .answers
       = render question.answers.sort_by_best
 
@@ -31,17 +35,22 @@
       .form-group
         = f.label :body, 'Your answer'
         = f.text_area :body, class: 'form-control'
-      .form-group
+
+      p 
+        b Add Files to the answer:
+      .form-group.border.p-2
         = f.label :files, class: 'mr-2'
         = f.file_field :files, multiple: true
 
-      p Links:
-      #links            
+      p 
+        b Add Links to the answer:
+      #links.border.p-2            
         = f.fields_for :links do |link|
           = render 'links/link_fields', f: link
         .links
           = link_to_add_association 'Add Links', f, :links, partial: 'links/link_fields', class: 'my-3 btn btn-success'
 
+      br
       = f.submit 'Create', class: 'btn btn-success'
 
     / = render 'answers/new', answer: question.answers.new
