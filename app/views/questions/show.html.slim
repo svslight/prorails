@@ -7,15 +7,12 @@
       = render 'shared/errors', resource: answer
 
     .files.border.p-2
-      h5
-        b List of Files to the question:
       = render partial: 'shared/attachments', locals: { resource: question, del: false }
     br
 
     - if question.links.present?
       .links.border.p-2
-        h5
-          b Lists Links to the question:
+        b Lists Links:
         ul
           - question.links.each do |link|
             li class = "link-#{link.id}"
@@ -37,13 +34,13 @@
         = f.text_area :body, class: 'form-control'
 
       p 
-        b Add Files to the answer:
+        b Add Files to the new answer:
       .form-group.border.p-2
         = f.label :files, class: 'mr-2'
         = f.file_field :files, multiple: true
 
       p 
-        b Add Links to the answer:
+        b Add Links to the new answer:
       #links.border.p-2            
         = f.fields_for :links do |link|
           = render 'links/link_fields', f: link

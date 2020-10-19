@@ -13,13 +13,13 @@
         = f.text_area :body, class: 'form-control'
 
       p 
-        b Add Files to the question:
+        b Add Files to the new question:
       .form-group.border.p-2
         = f.label :files, class: 'mr-2'       
         = f.file_field :files, multiple: true
 
       p 
-        b Add Links to the question:
+        b Add Links to the new question:
       #links.border.p-2
         = f.fields_for :links do |link|
           = render 'links/link_fields', f: link

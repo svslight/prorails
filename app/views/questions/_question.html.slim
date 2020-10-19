@@ -4,8 +4,7 @@ li.list-group-item id = "question-#{question.id}"
     .col-7
       = question.title
 
-      .files.border.p-2
-        b List of Files:
+      .files.border.p-3
         = render partial: 'shared/attachments', locals: { resource: question, del: false }
 
       = render 'questions/form', question: question      
