@@ -6,7 +6,7 @@
     .answer-errors
       = render 'shared/errors', resource: answer
 
-    .files.border.p-2
+    .files
       = render partial: 'shared/attachments', locals: { resource: question, del: false }
     br
 
@@ -24,6 +24,11 @@
               - if current_user&.author?(question)
                 p= link_to 'Delete Link', link_path(link), method: :delete, remote: true
     
+    br
+    - if question.reward.present?
+      .reward
+        = render question.reward
+
     br
     .answers
       = render question.answers.sort_by_best

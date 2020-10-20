@@ -7,13 +7,9 @@ class QuestionsController < ApplicationController
   expose :question, scope: -> { Question.with_attached_files }  
   expose :answer, -> { Answer.new }
 
-  # def new
-  #   question.links.new
-  # end
-
-  # def show
-  #   answer.links.new
-  # end
+  def new
+    question.reward = Reward.new
+  end
 
   def create
     @exposed_question = current_user.author_questions.new(question_params)
@@ -45,7 +41,8 @@ class QuestionsController < ApplicationController
       :title, 
       :body,
       files: [],
-      links_attributes: [:id, :name, :url, :_destroy]
+      links_attributes: %i[id name url _destroy],
+      reward_attributes: %i[name image]
       )
   end
 end
