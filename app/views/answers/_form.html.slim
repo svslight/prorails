@@ -19,6 +19,5 @@ p= form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.i
         = render 'links/link_fields', f: link
     .links
       = link_to_add_association 'Add Links', f, :links, class: 'my-3 btn btn-success', partial: 'links/link_fields'
-
-	br
-	= f.submit 'Save', class: 'btn btn-info'
+  br
+  = f.submit 'Save', class: 'btn btn-info'
