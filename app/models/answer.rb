@@ -17,7 +17,7 @@ class Answer < ApplicationRecord
     
     transaction do
       update(best: !best)
-      question.reward.update(user: author, answer: self) if question.reward.present?
+      question.reward.update(answer: self) if question.reward.present?
     end
   end
 end

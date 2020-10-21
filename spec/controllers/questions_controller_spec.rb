@@ -9,7 +9,6 @@ RSpec.describe QuestionsController, type: :controller do
     before { get :new }
     
     it 'assigns to new questions new link' do
-      # get :new
       expect(assigns(:exposed_question).links.first).to be_a_new(Link)
     end
 

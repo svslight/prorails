@@ -3,4 +3,5 @@ class RewardsController < ApplicationController
 
   expose :rewards, -> { Reward.all }
   expose :user_rewards, -> { current_user.rewards }
+
 end

@@ -1,14 +1,19 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action -> { question.links.build }, only: [:new, :create]
-  before_action -> { answer.links.build }, only: [:show]
+  # before_action -> { question.links.build }, only: [:new, :create]
+  # before_action -> { answer.links.build }, only: [:show]
 
   expose :questions, -> { Question.all }
   expose :question, scope: -> { Question.with_attached_files }  
   expose :answer, -> { Answer.new }
 
   def new
+    question.links.new
     question.reward = Reward.new
+  end
+
+  def show
+    answer.links.new
   end
 
   def create

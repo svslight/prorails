@@ -19,7 +19,6 @@ RSpec.describe Answer, type: :model do
     let(:question) { create(:question, author: user) }
     let(:answer) { create(:answer, question: question, author: user) }
   
-    # let(:other_user) { create(:user) }
     let(:other_answer) { create(:answer, question: question, author: user) }
   
     context 'mark best' do
@@ -46,11 +45,6 @@ RSpec.describe Answer, type: :model do
       it 'answer marked as awarded' do
         answer.mark_best
         expect(answer.reward).to eq reward
-      end
-
-      it 'user marked as awarded' do
-        answer.mark_best
-        expect(reward.user).to eq user
       end
     end
   end
