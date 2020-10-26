@@ -1,9 +1,20 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
+  # before_action -> { question.links.build }, only: [:new, :create]
+  # before_action -> { answer.links.build }, only: [:show]
 
   expose :questions, -> { Question.all }
   expose :question, scope: -> { Question.with_attached_files }  
   expose :answer, -> { Answer.new }
+
+  def new
+    question.links.new
+    question.reward = Reward.new
+  end
+
+  def show
+    answer.links.new
+  end
 
   def create
     @exposed_question = current_user.author_questions.new(question_params)
@@ -31,6 +42,12 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(
+      :title, 
+      :body,
+      files: [],
+      links_attributes: %i[id name url _destroy],
+      reward_attributes: %i[name image]
+      )
   end
 end

@@ -35,14 +35,24 @@ feature 'User can create question', %q{
     scenario 'asks a question with attached file' do
       fill_in 'Title', with: 'Test question'
       fill_in 'Body', with: 'text text text'
-
-      # Rails.root - возвращает путь до проекта      
+ 
       attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
       click_on 'Ask'
 
-      # ожидаем, что будет ссылка под названием 'rails_helper.rb'
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'asks a question with create reward' do
+      fill_in 'Title', with: 'Test question'
+      fill_in 'Body', with: 'text text text'
+
+      fill_in 'Reward name', with: 'Reward'
+      attach_file 'Add Image', "#{Rails.root}/spec/images/reward.jpg"
+      click_on 'Ask'
+
+      expect(page).to have_content 'Reward'
+      expect(page).to have_css("img[src*='reward.jpg']")
     end
   end
 

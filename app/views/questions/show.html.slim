@@ -6,9 +6,44 @@
     .answer-errors
       = render 'shared/errors', resource: answer
 
-    = render partial: 'shared/attachments', locals: { resource: question, del: false }
+    .files
+      = render partial: 'shared/attachments', locals: { resource: question, del: false }
+    br
 
+    - if question.links.present?
+      .links.border.p-2
+        b Lists Links:
+        = render partial: 'shared/links', locals: { resource: question }
+
+    br
+    - if question.reward.present?
+      .reward
+        = render question.reward
+
+    br
     .answers
       = render question.answers.sort_by_best
 
-    = render 'answers/new', answer: question.answers.new
+    = form_with model: [question, answer], class: 'new-answer' do |f|
+      .form-group
+        = f.label :body, 'Your answer'
+        = f.text_area :body, class: 'form-control'
+
+      p 
+        b Add Files to the new answer:
+      .form-group.border.p-2
+        = f.label :files, class: 'mr-2'
+        = f.file_field :files, multiple: true
+
+      p 
+        b Add Links to the new answer:
+      #links.border.p-2            
+        = f.fields_for :links do |link|
+          = render 'links/link_fields', f: link
+        .links
+          = link_to_add_association 'Add Links', f, :links, partial: 'links/link_fields', class: 'my-3 btn btn-success'
+
+      br
+      = f.submit 'Create', class: 'btn btn-success'
+
+    / = render 'answers/new', answer: question.answers.new

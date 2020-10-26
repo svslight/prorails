@@ -1,11 +1,23 @@
-= form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
-	.form-group
-		= f.label :body, 'Your answer'
-		= f.text_area :body, class: 'form-control'
-			
-	= render partial: 'shared/attachments', locals: { resource: answer, del: true }
+p= form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+  h3
+    b Forms editing answer
+  .form-group
+    = f.label :body, 'Your answer'
+    = f.text_area :body, class: 'form-control'
+	
+  p= render partial: 'shared/attachments', locals: { resource: answer, del: true }
 
-	.form-group
-		= f.label :files, class: 'mr-2'
-		= f.file_field :files, multiple: true
-	= f.submit 'Save', class: 'btn btn-info'
+  b Change List Files to the answer:
+  .form-group.border.p-2
+    = f.label :files, class: 'mr-2'
+    = f.file_field :files, multiple: true
+
+  b Change List Links to the answer:
+  #links.border.p-2
+    = f.fields_for :links do |link|
+      div id = "answer_nested_form_#{answer.id}"
+        = render 'links/link_fields', f: link
+    .links
+      = link_to_add_association 'Add Links', f, :links, class: 'my-3 btn btn-success', partial: 'links/link_fields'
+  br
+  = f.submit 'Save', class: 'btn btn-info'

@@ -7,4 +7,15 @@
   .form-group
     = f.label :files, class: 'mr-2'
     = f.file_field :files, multiple: true
+
+  p Links:
+  p            
+    = f.fields_for :links do |l| 
+      p
+        = l.label :name, 'Link name'
+        = l.text_field :name
+      p
+        = l.label :url
+        = l.text_field :url
+
   = f.submit 'Create', class: 'btn btn-success'

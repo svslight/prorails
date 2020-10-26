@@ -11,7 +11,32 @@
       .form-group
         = f.label :body
         = f.text_area :body, class: 'form-control'
-      .form-group
-        = f.label :files, class: 'mr-2'
+
+      p 
+        b Add Files:
+      .form-group.border.p-2
+        = f.label :files, class: 'mr-2'       
         = f.file_field :files, multiple: true
-      = f.submit 'Ask', class: 'btn btn-success'
+
+      p 
+        b Add Links:
+      #links.border.p-2
+        = f.fields_for :links do |link|
+          = render 'links/link_fields', f: link
+        .links
+          = link_to_add_association 'Add Links', f, :links, partial: 'links/link_fields', class: 'my-2 btn btn-success'
+
+      br
+      p 
+        b Add reward:
+      #rewards.border.p-2
+        = f.fields_for :reward do |r|
+          .form-group
+            = r.label :name, 'Reward name'
+            = r.text_field :name, class: 'form-control'
+          .form-group
+            = r.label :image, 'Add Image', class: 'mr-2'
+            = r.file_field :image
+
+      br
+      p= f.submit 'Ask', class: 'btn btn-success'
