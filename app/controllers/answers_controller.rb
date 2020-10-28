@@ -5,7 +5,7 @@ class AnswersController < ApplicationController
   expose :question, -> { Question.find(params[:question_id]) }
 
   def create
-    @exposed_answer = question.answers.new(answer_params.merge(author_id: current_user.id))
+    @exposed_answer = question.answers.create(answer_params.merge(author_id: current_user.id))
   
     # Асинхронный HTML (AJAH) 
     # respond_to do |format|
@@ -20,15 +20,15 @@ class AnswersController < ApplicationController
     # end
 
     # Асинхронный JSON 
-    respond_to do |format|
-      if answer.save
-        format.json {render json: answer} 
-      else      		 
-        format.json do
-          render json: answer.errors.full_messages, status: :unprocessable_entity
-        end
-      end
-    end
+    # respond_to do |format|
+    #   if answer.save
+    #     format.json {render json: answer} 
+    #   else      		 
+    #     format.json do
+    #       render json: answer.errors.full_messages, status: :unprocessable_entity
+    #     end
+    #   end
+    # end
   end
 
   def update
