@@ -8,13 +8,24 @@ class AnswersController < ApplicationController
     @exposed_answer = question.answers.new(answer_params.merge(author_id: current_user.id))
   
     # Асинхронный HTML (AJAH) 
+    # respond_to do |format|
+    #   if answer.save
+    #     format.html { render answer }
+    #   else
+    #     format.html do
+    #       render partial: 'shared/errors', locals: { resource: answer },
+    #                           status: :unprocessable_entity
+    #     end
+    #   end
+    # end
+
+    # Асинхронный JSON 
     respond_to do |format|
       if answer.save
-        format.html { render answer }
-      else
-        format.html do
-          render partial: 'shared/errors', locals: { resource: answer },
-                              status: :unprocessable_entity
+        format.json {render json: answer} 
+      else      		 
+        format.json do
+          render json: answer.errors.full_messages, status: :unprocessable_entity
         end
       end
     end
