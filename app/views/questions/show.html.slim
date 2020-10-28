@@ -24,7 +24,7 @@
     .answers
       = render question.answers.sort_by_best
 
-    = form_with model: [question, answer], class: 'new-answer' do |f|
+    = form_with model: [question, answer], class: 'new-answer', data: { type: :html } do |f|
       .form-group
         = f.label :body, 'Your answer'
         = f.text_area :body, class: 'form-control'
@@ -45,5 +45,8 @@
 
       br
       = f.submit 'Create', class: 'btn btn-success'
+
+    br
+    = link_to 'Back', questions_path, class: 'btn btn-success'
 
     / = render 'answers/new', answer: question.answers.new
