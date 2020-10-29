@@ -5,7 +5,7 @@ div class = "vote-#{resource.class.to_s.downcase}-block-#{resource.id}"
     remote: true, data: { type: 'json' }, class: 'vote-up' 
 
   p.vote-element
-    b class = "rating-#{resource.id}" = resource.rating
+    b class = "rating-#{resource.id}" = resource.class.find(resource.id).rating
 
   p.vote-element = link_to "#{octicon "arrow-down", :height => 28}".html_safe,
     polymorphic_path([:vote_down, resource]), 

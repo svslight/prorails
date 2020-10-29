@@ -43,15 +43,6 @@ feature 'User can vote for the question', %q(
       end
     end
 
-    scenario 'Cancel vote up' do
-      within(".vote-question-block-#{question.id}") do
-        find('.vote-up').click
-        find('.vote-down').click
-
-        expect(page).to have_content '0'
-      end      
-    end
-
     scenario 'First vote down' do
       within(".vote-question-block-#{question.id}") do
         find('.vote-down').click
@@ -65,15 +56,6 @@ feature 'User can vote for the question', %q(
         receive(find('.vote-down').click).twice
 
         expect(page).to have_content '-1'
-      end      
-    end
-
-    scenario 'Cancel vote down' do
-      within(".vote-question-block-#{question.id}") do
-        find('.vote-down').click
-        find('.vote-up').click
-
-        expect(page).to have_content '0'
       end      
     end
   end

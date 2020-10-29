@@ -1,10 +1,9 @@
 class Answer < ApplicationRecord
-  include Voteable
-
   belongs_to :question
   belongs_to :author, class_name: 'User'
   has_one :reward
   has_many :links, dependent: :destroy, as: :linkable
+  has_many :votes, dependent: :destroy, as: :voteable
 
   accepts_nested_attributes_for :links, reject_if: :all_blank, allow_destroy: true
 
@@ -21,5 +20,9 @@ class Answer < ApplicationRecord
       update(best: !best)
       question.reward.update(answer: self) if question.reward.present?
     end
+  end
+
+  def rating
+    self.votes.sum(:value)
   end
 end

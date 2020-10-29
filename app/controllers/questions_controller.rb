@@ -1,7 +1,5 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  # before_action -> { question.links.build }, only: [:new, :create]
-  # before_action -> { answer.links.build }, only: [:show]
 
   include Voted
 
