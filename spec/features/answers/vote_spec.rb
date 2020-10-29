@@ -1,20 +1,21 @@
 require 'rails_helper'
 
-feature 'User can vote for the question', %q(
-  To vote for an interesting question
+feature 'User can vote for the answer', %q(
+  To highlight the correct answer in my opinion
   As authenticated user
   I would like to be able to vote
 ) do
-
+  
   given!(:user) { create(:user) }
   given!(:other_user) { create(:user) }
   given!(:question) { create(:question, author: user) }
+  given!(:answer) { create(:answer, question: question, author: user) }
 
   describe 'Unauthenticated user tries' do
-    scenario 'vote an question' do
+    scenario 'vote an answer' do
       visit question_path(question)
 
-      within(".vote-question-block-#{question.id}") do
+      within(".vote-answer-block-#{answer.id}") do
         find('.vote-up').click
       end
 
@@ -22,21 +23,21 @@ feature 'User can vote for the question', %q(
     end
   end
 
-  describe 'Not the author votes for the question', js: true do
+  describe 'Not the author votes for the answer', js: true do
     before do
       sign_in(other_user)
       visit question_path(question)
     end
 
     scenario 'First vote up' do
-      within(".vote-question-block-#{question.id}") do
+      within(".vote-answer-block-#{answer.id}") do
         find('.vote-up').click
         expect(page).to have_content '1'
       end
     end
 
-    scenario 'Re-vote up' do 
-      within(".vote-question-block-#{question.id}") do
+    scenario 'Re-vote up' do
+      within(".vote-answer-block-#{answer.id}") do
         receive(find('.vote-up').click).twice
 
         expect(page).to have_content '1'
@@ -44,60 +45,60 @@ feature 'User can vote for the question', %q(
     end
 
     scenario 'Cancel vote up' do
-      within(".vote-question-block-#{question.id}") do
+      within(".vote-answer-block-#{answer.id}") do
         find('.vote-up').click
         find('.vote-down').click
 
         expect(page).to have_content '0'
-      end      
+      end
     end
 
     scenario 'First vote down' do
-      within(".vote-question-block-#{question.id}") do
+      within(".vote-answer-block-#{answer.id}") do
         find('.vote-down').click
 
         expect(page).to have_content '-1'
-      end      
+      end
     end
 
     scenario 'Re-vote down' do
-      within(".vote-question-block-#{question.id}") do
+      within(".vote-answer-block-#{answer.id}") do
         receive(find('.vote-down').click).twice
 
         expect(page).to have_content '-1'
-      end      
+      end
     end
 
     scenario 'Cancel vote down' do
-      within(".vote-question-block-#{question.id}") do
+      within(".vote-answer-block-#{answer.id}") do
         find('.vote-down').click
         find('.vote-up').click
 
         expect(page).to have_content '0'
-      end      
+      end
     end
   end
 
-  describe 'Author cannot vote for the question', js: true do
+  describe 'Author cannot vote for the answer', js: true do
     before do
       sign_in(user)
       visit question_path(question)
     end
 
     scenario 'Vote up' do
-      within(".vote-question-block-#{question.id}") do
+      within(".vote-answer-block-#{answer.id}") do
         find('.vote-up').click
       end
 
-      expect(page).to have_content 'You can not vote for your question'
+      expect(page).to have_content "You can not vote for your answer"
     end
 
     scenario 'Vote down' do
-      within(".vote-question-block-#{question.id}") do
+      within(".vote-answer-block-#{answer.id}") do
         find('.vote-down').click
       end
 
-      expect(page).to have_content 'You can not vote for your question'
+      expect(page).to have_content 'You can not vote for your answer'
     end
   end
 end

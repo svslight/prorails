@@ -1,5 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Vote, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it { should belong_to :voteable }
+
+  it { should validate_presence_of :value }
+  it { should validate_inclusion_of(:value).in_array([1, -1]) }
 end
