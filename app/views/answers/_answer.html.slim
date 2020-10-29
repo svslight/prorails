@@ -1,6 +1,8 @@
 li.list-group-item id = "answer-#{answer.id}"
   .row.d-flex.align-items-center
-    .col-8
+    .col-1
+      = render 'shared/vote_links', resource: answer
+    .col-7
       -if answer.persisted?
         - if answer.best
           span.badge.badge-success.mr-4

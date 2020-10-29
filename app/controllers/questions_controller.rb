@@ -3,6 +3,8 @@ class QuestionsController < ApplicationController
   # before_action -> { question.links.build }, only: [:new, :create]
   # before_action -> { answer.links.build }, only: [:show]
 
+  include Voted
+
   expose :questions, -> { Question.all }
   expose :question, scope: -> { Question.with_attached_files }  
   expose :answer, -> { Answer.new }

@@ -1,6 +1,7 @@
 .row.d-flex.justify-content-center
   .col-10
     h1.mt-2 = question.title
+    p= render 'shared/vote_links', resource: question
     p= question.body
 
     .answer-errors

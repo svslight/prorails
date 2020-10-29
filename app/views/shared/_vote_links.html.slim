@@ -1,0 +1,14 @@
+div class = "vote-#{resource.class.to_s.downcase}-block-#{resource.id}"
+  p.vote-element = link_to "#{octicon "arrow-up", :height => 28}".html_safe,
+    polymorphic_path([:vote_up, resource]), 
+    method: :post, 
+    remote: true, data: { type: 'json' }, class: 'vote-up' 
+
+  p.vote-element
+    b class = "rating-#{resource.id}" = resource.rating
+
+  p.vote-element = link_to "#{octicon "arrow-down", :height => 28}".html_safe,
+    polymorphic_path([:vote_down, resource]), 
+    method: :post, 
+    remote: true, 
+    data: { type: 'json' }, class: 'vote-down' 
