@@ -1,5 +1,3 @@
-require 'active_support/concern'
-
 module Voted
   extend ActiveSupport::Concern
 
@@ -18,8 +16,8 @@ module Voted
   def vote(value)
     return anauthorized! if current_user.author?(@voteable)
 
-    if @voteable.votes.where(user: current_user).exists?
-      @voteable.votes.find_by(user: current_user).update_attribute(:value, value)
+    if vote = @voteable.votes.find_by(user: current_user)
+      vote.update(value: value)
     else
       @voteable.votes.create(user: current_user, value: value)
     end
