@@ -24,9 +24,9 @@ feature 'Add comment to question', %q{
 
     scenario 'creates comment for question with valid attributes' do
       within '.add-question-comment' do
-        fill_in 'Comment', with: 'My comment'
+        fill_in 'Comment', with: 'Comment'
         click_on 'Add comment'
-        expect(page).to have_content 'My comment'
+        expect(page).to have_content 'Comment'
       end
     end
 
