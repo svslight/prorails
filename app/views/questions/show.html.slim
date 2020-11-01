@@ -22,9 +22,26 @@
         = render question.reward
 
     br
+    .comment-errors
+      = render 'shared/errors', resource: @resource
+
+    br
+    .row.add-question-comment
+      .col-12
+        - if user_signed_in?
+          h6 Leave your comment:
+          = render 'comments/form', resource: question
+          hr
+        h6 Comments:
+        hr
+        .question-comments
+          = render question.comments
+
+    br
     .answers
       = render question.answers.sort_by_best
 
+    h6 Leave your answer:
     = form_with model: [question, answer], class: 'new-answer' do |f|
       .form-group
         = f.label :body, 'Your answer'

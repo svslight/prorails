@@ -1,6 +1,9 @@
 FactoryBot.define do
   factory :comment do
-    body { "MyText" }
-    user { nil }
+    body { 'Test' }
+
+    trait :invalid do
+      body { nil }
+    end
   end
 end
