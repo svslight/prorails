@@ -9,11 +9,11 @@
 
     .files
       = render partial: 'shared/attachments', locals: { resource: question, del: false }
+  
     br
-
     - if question.links.present?
       .links.border.p-2
-        b Lists Links:
+        b Links and Gists:
         = render partial: 'shared/links', locals: { resource: question }
 
     br

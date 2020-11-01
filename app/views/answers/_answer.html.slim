@@ -14,11 +14,13 @@ li.list-group-item id = "answer-#{answer.id}"
 
       - if answer.links.present?
         .links.border.p-2
-          p List Links:
+          h6 Links and Gists:
           = render partial: 'shared/links', locals: { resource: answer }          
 
+      br
       p= render partial: 'shared/attachments', locals: { resource: answer, del: false }
       
+      br
       p= render 'answers/form', answer: answer
 
     .col-4
