@@ -1,6 +1,7 @@
 .row.d-flex.justify-content-center
   .col-10
     h1.mt-2 = question.title
+    p= render 'shared/vote_links', resource: question
     p= question.body
 
     .answer-errors
@@ -45,5 +46,8 @@
 
       br
       = f.submit 'Create', class: 'btn btn-success'
+
+    br
+    = link_to 'Back', questions_path, class: 'btn btn-success'
 
     / = render 'answers/new', answer: question.answers.new
