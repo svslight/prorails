@@ -49,6 +49,9 @@ gem 'skim', '~> 0.10.0'
 # Helper for creating declarative interfaces in controllers
 gem 'decent_exposure', '3.0.0'
 
+gem 'omniauth'
+gem 'omniauth-github'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
