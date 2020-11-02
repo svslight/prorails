@@ -4,6 +4,7 @@ class AnswersController < ApplicationController
 
   before_action :authenticate_user!
   after_action :publish_answer, only: [:create]
+  # after_action :publish_answer, only: [:create, :destroy, :update]
 
   expose :answer
   expose :question, -> { Question.find(params[:question_id]) }
