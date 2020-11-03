@@ -51,6 +51,7 @@ gem 'decent_exposure', '3.0.0'
 
 gem 'omniauth'
 gem 'omniauth-github'
+gem 'omniauth-vkontakte'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
