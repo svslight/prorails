@@ -28,7 +28,7 @@ feature 'User can sign in', %q{
     end 
   end
 
-  describe 'Log In With Github' do
+  describe 'Log In With Github', js: true do
     scenario 'success log in' do
       visit new_user_session_path
       mock_auth_hash_github
@@ -40,13 +40,14 @@ feature 'User can sign in', %q{
   end
 
   describe 'Log In With VK' do
-    scenario 'success log in' do
+    scenario 'success log in with email' do
       visit new_user_session_path
       mock_auth_hash_vkontakte
       click_on 'Sign in with Vkontakte'
 
       expect(page).to have_content 'Successfully authenticated from VK account.'
-      expect(page).to have_content 'Log out'
+      # expect(page).to have_content 'Log out'
+      expect(current_path).to eq root_path
     end
-  end 
+  end
 end

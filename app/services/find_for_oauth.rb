@@ -1,4 +1,5 @@
 class FindForOauth
+
   attr_reader :auth
 
   def initialize(auth)
@@ -10,6 +11,7 @@ class FindForOauth
     return authorization.user if authorization
 
     email = auth.info[:email]
+    return if email.nil?
     user = User.where(email: email).first
 
     if user
@@ -17,6 +19,7 @@ class FindForOauth
     else
       password = Devise.friendly_token[0, 20]
       user = User.create!(email: email, password: password, password_confirmation: password)
+      
       user.create_authorization(auth)
     end
 

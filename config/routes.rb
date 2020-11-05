@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root to: "questions#index"
+
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
+  # post '/email_confirmations', to: 'users#email_confirmations', as: :email_confirmations
 
   concern :voteable do
     member do
@@ -24,4 +26,5 @@ Rails.application.routes.draw do
   resources :rewards, only: :index
 
   mount ActionCable.server => '/cable'
+  # match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 end
