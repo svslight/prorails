@@ -21,9 +21,6 @@ module Prorails
 
     # config.action_cable.disable_request_forgery_protection = false
 
-    config.autoload_paths += [config.root.join('app')]
-
-
     # Setting up a Rails generator for controllers
     config.generators do |g|
       g.test_framework :rspec,
