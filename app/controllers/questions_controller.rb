@@ -1,7 +1,12 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: %i[index show]
-
   include Voted
+
+  before_action :authenticate_user!, except: %i[index show]
+  
+  before_action :set_question, only: [:show, :destroy, :update]
+  
+  # Передача данных в stream
+  after_action :publish_question, only: [:create]
 
   expose :questions, -> { Question.all }
   expose :question, scope: -> { Question.with_attached_files }  
@@ -49,5 +54,23 @@ class QuestionsController < ApplicationController
       links_attributes: %i[id name url _destroy],
       reward_attributes: %i[name image]
       )
+  end
+
+  def publish_question
+    return if question.errors.any?
+
+    ActionCable.server.broadcast(
+      'questions',
+      ApplicationController.render(
+        partial: 'questions/question',
+        locals: { question: question, current_user: nil }
+      )      
+    )
+  end
+
+  def set_question
+    question = Question.find(params[:id])
+    gon.question_id = question.id
+    gon.user_id = current_user.id if current_user
   end
 end

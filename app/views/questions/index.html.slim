@@ -1,15 +1,14 @@
 .bg-light.border-bottom
   .row.d-flex.align-items-center.py-3
     .col-1
-    .col-5
-      h2 Список вопросов
-    .col-3
+    .col-6
+      h2 List of questions
+    .col-4
       nav.nav.justify-content-end
         = link_to 'Ask question', new_question_path, class: 'btn btn-success'
 
 ul.list-group.list-group-flush
   .question-errors
-    = render 'shared/errors', resource: question
 
   .questions
     = render questions

@@ -2,6 +2,8 @@ doctype html
 html
   head
     title Prorails
+    = Gon::Base.render_data
+    = action_cable_meta_tag
     = csrf_meta_tags
     = csp_meta_tag
 
@@ -11,6 +13,7 @@ html
   body
     = render 'shared/nav'
 
-    = yield
-    p.notice = notice
-    p.alert = alert
+    .container.bg-light.shadow.mb-60.mt-60
+      = yield
+      p.notice = notice
+      p.alert = alert

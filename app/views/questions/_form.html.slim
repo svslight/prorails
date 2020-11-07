@@ -1,7 +1,7 @@
 
 p= form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
-  h3
-    b Forms editing question
+  h6
+    strong Forms editing question
   .form-group
     = f.label :title, 'Your question'
     = f.text_field :title, class: "form-control"
@@ -10,21 +10,17 @@ p= form_with model: question, class: 'hidden', html: { id: "edit-question-#{ques
     = f.text_area :body, class: 'form-control'
 
   p= render partial: 'shared/attachments', locals: { resource: question, del: true }
-
-  p 
-    b Change List Files to the question:
-  .form-group.border.p-2
+  .form-group
     = f.label :files, class: 'mr-2'
     = f.file_field :files, multiple: true
-  
+ 
   p 
-    b Change List Links to the question:
+    strong Links:
   #links.border.p-2
     = f.fields_for :links do |link|
       div id = "question_nested_form_#{question.id}"
         = render 'links/link_fields', f: link
     .links
       = link_to_add_association 'Add Links', f, :links, class: 'my-3 btn btn-success', partial: 'links/link_fields'
-  
   br
   = f.submit 'Save', class: 'btn btn-success'

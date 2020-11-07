@@ -37,10 +37,14 @@ gem 'jquery-rails'
 gem 'aws-sdk-s3', require: false
 gem 'cocoon'
 gem 'validate_url'
+
 gem "octokit", "~> 4.0"
 gem 'octicons_helper'
+gem 'font-awesome-rails', '~> 4.7', '>= 4.7.0.4'
 
-
+# Get your Rails variables in your js
+gem 'gon'
+gem 'skim', '~> 0.10.0'
 
 # Helper for creating declarative interfaces in controllers
 gem 'decent_exposure', '3.0.0'

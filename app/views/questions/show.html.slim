@@ -1,19 +1,26 @@
 .row.d-flex.justify-content-center
   .col-10
-    h1.mt-2 = question.title
-    p= render 'shared/vote_links', resource: question
-    p= question.body
+    h1.mt-4 = question.title
+    hr
 
     .answer-errors
       = render 'shared/errors', resource: answer
 
+    .row
+      .col-1.text-center
+        p= render 'shared/vote_links', resource: question
+      .col-11
+        p= question.body
+        hr
+
+    hr
     .files
       = render partial: 'shared/attachments', locals: { resource: question, del: false }
-    br
 
+    br
     - if question.links.present?
       .links.border.p-2
-        b Lists Links:
+        strong Links and Gists:
         = render partial: 'shared/links', locals: { resource: question }
 
     br
@@ -22,22 +29,40 @@
         = render question.reward
 
     br
+    .comment-errors
+      = render 'shared/errors', resource: @resource
+
+    br
+    .row.add-question-comment
+      .col-12
+        - if user_signed_in?
+          h6 Leave your comment:
+          = render 'comments/form', resource: question
+          hr
+        h6 Comments:
+        hr
+        .question-comments
+          = render question.comments
+
+    br
     .answers
       = render question.answers.sort_by_best
 
+    br
+    strong Leave your answer:
     = form_with model: [question, answer], class: 'new-answer' do |f|
       .form-group
         = f.label :body, 'Your answer'
         = f.text_area :body, class: 'form-control'
 
       p 
-        b Add Files to the new answer:
+        strong Add Files to the new answer:
       .form-group.border.p-2
         = f.label :files, class: 'mr-2'
         = f.file_field :files, multiple: true
 
       p 
-        b Add Links to the new answer:
+        strong Add Links to the new answer:
       #links.border.p-2            
         = f.fields_for :links do |link|
           = render 'links/link_fields', f: link

@@ -2,12 +2,9 @@ li.list-group-item id = "question-#{question.id}"
   .row.d-flex.align-items-center
     .col-1
     .col-7
-      = question.title
+      = link_to question.title, question_path(question)
 
-      .files
-        = render partial: 'shared/attachments', locals: { resource: question, del: false }
-
-      = render 'questions/form', question: question      
+      = render 'questions/form', question: question
 
     .col-4
       nav.nav.justify-content-end

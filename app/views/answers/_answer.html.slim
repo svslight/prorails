@@ -1,33 +1,50 @@
 li.list-group-item id = "answer-#{answer.id}"
   .row.d-flex.align-items-center
-    .col-1
-      = render 'shared/vote_links', resource: answer
-    .col-7
-      -if answer.persisted?
-        - if answer.best
-          span.badge.badge-success.mr-4
-            | Best answer!!!
-          -if answer.reward.present?
-            .reward
-              = render answer.reward
-        = answer.body
+    .col-12
+      .row
+        .col-1.text-center
+          = render 'shared/vote_links', resource: answer
+        .col-11
+          -if answer.persisted?
+            - if answer.best
+              span.badge.badge-success.mr-4.mb-2
+                | Best answer!
+              -if answer.reward.present?
+                .reward.border.border-success.mb-4
+                  = render answer.reward
+            = answer.body
+            br
 
-      - if answer.links.present?
-        .links.border.p-2
-          p List Links:
-          = render partial: 'shared/links', locals: { resource: answer }          
+          br
+          - if answer.links.present?
+            .links
+              h6 Links and Gists:
+              = render partial: 'shared/links', locals: { resource: answer }          
 
-      p= render partial: 'shared/attachments', locals: { resource: answer, del: false }
-      
-      p= render 'answers/form', answer: answer
+          br
+          p= render partial: 'shared/attachments', locals: { resource: answer, del: false }
+          
+          br
+          p= render 'answers/form', answer: answer
 
-    .col-4
-      nav.nav
-        .row
-          .col-12.d-flex.justify-content-center
-            - if current_user&.author?(answer)
-              = link_to 'Edit', '#', class: 'edit-answer-link btn btn-info mr-3', data: { answer_id: answer.id }
-              = link_to 'Delete', answer, method: :delete, remote: true, class: 'btn btn-info mr-3'
-            - if current_user&.author?(question) && !answer&.best
-              = link_to 'Best answer', mark_best_answer_path(answer), method: :post, remote: true, class: 'best-answer-link btn btn-success'
-    
+      .row
+        .col-8
+          .col-4.text-right
+            .btn-group role='group'
+              - if current_user&.author?(answer)
+                = link_to 'Edit', '#', class: 'edit-answer-link btn btn-info mr-3', data: { answer_id: answer.id }
+                = link_to 'Delete', answer, method: :delete, remote: true, class: 'btn btn-info mr-3'
+              - if current_user&.author?(question) && !answer&.best
+                = link_to 'Best answer', mark_best_answer_path(answer), method: :post, remote: true, class: 'best-answer-link btn btn-info'
+
+      br
+      .row.add-answer-comment
+        .col-12
+          - if user_signed_in?
+            h6 Add Comment:
+            = render 'comments/form', resource: answer
+            hr
+          h6 Comments:
+          hr
+          .answer-comments
+            = render answer.comments

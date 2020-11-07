@@ -19,13 +19,18 @@ module Prorails
     # config.time_zone = 'Moscow'
     # config.time_zone = 'Eastern Time (US & Canada)'
   
+
+    # config.action_cable.disable_request_forgery_protection = false
+
     # Setting up a Rails generator for controllers
     config.generators do |g|
       g.test_framework :rspec,
+                        fixtures: true,
                         view_specs: false,
                         helper_specs: false,
                         routing_specs: false,
-                        request_specs: false
+                        request_specs: false,
+                        controller_specs: true
     end 
   end
 end

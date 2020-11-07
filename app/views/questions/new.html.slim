@@ -11,15 +11,12 @@
       .form-group
         = f.label :body
         = f.text_area :body, class: 'form-control'
-
-      p 
-        b Add Files:
-      .form-group.border.p-2
+      .form-group
         = f.label :files, class: 'mr-2'       
         = f.file_field :files, multiple: true
 
       p 
-        b Add Links:
+        strong Add Links:
       #links.border.p-2
         = f.fields_for :links do |link|
           = render 'links/link_fields', f: link
@@ -28,7 +25,7 @@
 
       br
       p 
-        b Add reward:
+        strong Add reward:
       #rewards.border.p-2
         = f.fields_for :reward do |r|
           .form-group
@@ -40,3 +37,4 @@
 
       br
       p= f.submit 'Ask', class: 'btn btn-success'
+      p= link_to 'Back', questions_path, class: 'btn btn-success'
