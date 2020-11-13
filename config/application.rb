@@ -17,8 +17,7 @@ module Prorails
     # the framework and any gems in your application.
 
     # config.time_zone = 'Moscow'
-    # config.time_zone = 'Eastern Time (US & Canada)'
-  
+    # config.time_zone = 'Eastern Time (US & Canada)' 
 
     # config.action_cable.disable_request_forgery_protection = false
 

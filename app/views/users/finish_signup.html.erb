@@ -1,0 +1,22 @@
+<div id="add-email" class="container">
+  <h1>Add Email</h1>
+  <%= form_for(@user, :url => email_confirmations_path, :html => { role: 'form'}) do |f| %>
+    <% if  @user.errors.any? %>
+      <div id="error_explanation">
+        <% @user.errors.full_messages.each do |msg| %>
+          <%= msg %><br>
+        <% end %>
+      </div>
+    <% end %>
+    <div class="form-group">
+      <%= f.label :email %>
+      <div class="controls">
+        <%= f.email_field :email, :autofocus => true, :value => '', class: 'form-control input-lg', placeholder: 'Example: new@email.com' %>
+        <p class="help-block">Please confirm your email address</p>
+      </div>
+    </div>
+    <div class="actions">
+      <%= f.submit 'Continue', :class => 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>

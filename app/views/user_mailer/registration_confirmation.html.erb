@@ -1,0 +1,5 @@
+Hi, new User!!!
+
+Thanks for registration! To confirm your registration, plese click the link below:
+
+<p><%= link_to 'Confirm my account', confirmation_url(@user, confirmation_token: @user.confirmation_token), target: '_blank' %></p>
