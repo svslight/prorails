@@ -1,8 +1,7 @@
 class QuestionsController < ApplicationController
   include Voted
 
-  before_action :authenticate_user!, except: %i[index show]
-  
+  before_action :authenticate_user!, except: %i[index show]  
   before_action :set_question, only: [:show, :destroy, :update]
   
   # Передача данных в stream
@@ -12,12 +11,15 @@ class QuestionsController < ApplicationController
   expose :question, scope: -> { Question.with_attached_files }  
   expose :answer, -> { Answer.new }
 
+  authorize_resource
+
   def new
     question.links.new
     question.reward = Reward.new
   end
 
   def show
+    authorize! :read, Question
     answer.links.new
   end
 

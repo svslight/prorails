@@ -5,7 +5,8 @@
       h2 List of questions
     .col-4
       nav.nav.justify-content-end
-        = link_to 'Ask question', new_question_path, class: 'btn btn-success'
+        - if can?(:create, Question)
+          p= link_to 'Ask question', new_question_path, class: 'btn btn-success'
 
 ul.list-group.list-group-flush
   .question-errors
