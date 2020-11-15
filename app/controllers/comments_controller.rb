@@ -5,6 +5,8 @@ class CommentsController < ActionController::Base
   
   expose :comment
 
+  authorize_resource
+
   def create
     @exposed_comment = @resource.comments.create(comment_params.merge(user_id: current_user.id))
   end

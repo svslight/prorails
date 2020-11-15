@@ -19,7 +19,6 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    authorize! :read, Question
     answer.links.new
   end
 

@@ -35,8 +35,8 @@
     br
     .row.add-question-comment
       .col-12
-        - if user_signed_in?
-          h6 Leave your comment:
+        - if can?(:create, Comment)
+          h6 Leave your Comment:
           = render 'comments/form', resource: question
           hr
         h6 Comments:
@@ -49,29 +49,30 @@
       = render question.answers.sort_by_best
 
     br
-    strong Leave your answer:
-    = form_with model: [question, answer], class: 'new-answer' do |f|
-      .form-group
-        = f.label :body, 'Your answer'
-        = f.text_area :body, class: 'form-control'
+    strong Leave your Answer:
+    - if can?(:create, Answer)
+      = form_with model: [question, answer], class: 'new-answer' do |f|
+        .form-group
+          = f.label :body, 'Your answer'
+          = f.text_area :body, class: 'form-control'
 
-      p 
-        strong Add Files to the new answer:
-      .form-group.border.p-2
-        = f.label :files, class: 'mr-2'
-        = f.file_field :files, multiple: true
+        p 
+          strong Add Files to the new answer:
+        .form-group.border.p-2
+          = f.label :files, class: 'mr-2'
+          = f.file_field :files, multiple: true
 
-      p 
-        strong Add Links to the new answer:
-      #links.border.p-2            
-        = f.fields_for :links do |link|
-          = render 'links/link_fields', f: link
-        .links
-          = link_to_add_association 'Add Links', f, :links, partial: 'links/link_fields', class: 'my-3 btn btn-success'
+        p 
+          strong Add Links to the new answer:
+        #links.border.p-2            
+          = f.fields_for :links do |link|
+            = render 'links/link_fields', f: link
+          .links
+            = link_to_add_association 'Add Links', f, :links, partial: 'links/link_fields', class: 'my-3 btn btn-success'
 
-      br
-      = f.submit 'Create', class: 'btn btn-success'
-
+        br
+        = f.submit 'Create', class: 'btn btn-success'
+    
     br
     = link_to 'Back', questions_path, class: 'btn btn-success'
 

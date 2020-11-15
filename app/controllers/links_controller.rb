@@ -3,6 +3,8 @@ class LinksController < ApplicationController
 
   expose :link, -> { Link.find(params[:id]) }
 
+  authorize_resource
+
   def destroy
     link.destroy if current_user.author?(link.linkable)
 

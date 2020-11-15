@@ -9,6 +9,8 @@ class AnswersController < ApplicationController
   expose :answer
   expose :question, -> { Question.find(params[:question_id]) }
 
+  authorize_resource
+
   def create
     @exposed_answer = question.answers.create(answer_params.merge(author_id: current_user.id))
   end
