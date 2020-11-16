@@ -1,8 +1,7 @@
 class QuestionsController < ApplicationController
   include Voted
 
-  before_action :authenticate_user!, except: %i[index show]
-  
+  before_action :authenticate_user!, except: %i[index show]  
   before_action :set_question, only: [:show, :destroy, :update]
   
   # Передача данных в stream
@@ -11,6 +10,8 @@ class QuestionsController < ApplicationController
   expose :questions, -> { Question.all }
   expose :question, scope: -> { Question.with_attached_files }  
   expose :answer, -> { Answer.new }
+
+  authorize_resource
 
   def new
     question.links.new
@@ -32,16 +33,12 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    question.update(question_params) if current_user.author?(question)
+    question.update(question_params)
   end
 
   def destroy
-    if current_user.author?(question)
-      question.destroy
-      redirect_to questions_path, notice: 'Your question was successfully deleted.'
-    else
-      redirect_to questions_path, notice: 'You have no rights to do this.'
-    end
+    question.destroy
+    redirect_to questions_path, notice: 'Your question was successfully deleted.'
   end
 
   private
@@ -60,12 +57,30 @@ class QuestionsController < ApplicationController
     return if question.errors.any?
 
     ActionCable.server.broadcast(
-      'questions',
-      ApplicationController.render(
-        partial: 'questions/question',
-        locals: { question: question, current_user: nil }
-      )      
+      'questions', question: render_question
+
+      # ApplicationController.render(
+      #   partial: 'questions/question',
+      #   locals: { question: question, current_user: nil }
+      # )      
     )
+  end
+
+  def render_question
+    ApplicationController.renderer.instance_variable_set(
+      :@env, {
+        "HTTP_HOST"=>"localhost:3000", 
+        "HTTPS"=>"off", 
+        "REQUEST_METHOD"=>"GET", 
+        "SCRIPT_NAME"=>"",   
+        "warden" => warden
+      }
+    )
+  
+    ApplicationController.render(
+      partial: 'questions/question',
+      locals: { question: question, current_user: nil }
+    )    
   end
 
   def set_question

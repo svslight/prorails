@@ -24,9 +24,8 @@ feature 'Author can delete files from his answer', %q{
     scenario 'delete attached file from his answer' do
       answer.files.attach(io: File.open("#{Rails.root}/spec/spec_helper.rb"), filename: 'spec_helper.rb')
       visit question_path(question)
-
+ 
       within "#answer-#{answer.id}" do
-        click_on 'Edit'
         click_on 'Delete File'
         expect(page).not_to have_link 'spec_helper.rb'
       end
