@@ -30,7 +30,7 @@ describe Ability, type: :model do
     let(:link_question) { create :link, linkable: question }
     let(:other_link_question) { create :link, linkable: other_question }
     let(:link_answer) { create :link, linkable: answer }
-    let(:other_link_answer) { create :link, linkable: other_answer }     
+    let(:other_link_answer) { create :link, linkable: other_answer }  
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }

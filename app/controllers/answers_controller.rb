@@ -4,7 +4,6 @@ class AnswersController < ApplicationController
 
   before_action :authenticate_user!
   after_action :publish_answer, only: [:create]
-  # after_action :publish_answer, only: [:create, :destroy, :update]
 
   expose :answer
   expose :question, -> { Question.find(params[:question_id]) }
@@ -16,17 +15,17 @@ class AnswersController < ApplicationController
   end
 
   def update
-    answer.update(answer_params) if current_user.author?(answer)
+    answer.update(answer_params)
     @exposed_question = answer.question
   end
 
   def destroy
-    answer.destroy if current_user.author?(answer)
+    answer.destroy
   end
 
   def mark_best
     answer = Answer.find(params[:id])
-    answer.mark_best if current_user.author?(answer.question)
+    answer.mark_best
     @exposed_question = answer.question
   end
 
