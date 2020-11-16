@@ -14,8 +14,12 @@
         hr
 
     hr
-    .files
-      = render partial: 'shared/attachments', locals: { resource: question, del: false }
+        - if question.files.attached?
+          h6 Lists Attached Files:
+          ul.list-inline
+          - question.files.each do |file|
+            li.list-inline-item
+              p= link_to file.filename.to_s, url_for(file), class: 'mr-4'
 
     br
     - if question.links.present?

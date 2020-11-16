@@ -22,7 +22,7 @@ li.list-group-item id = "answer-#{answer.id}"
               = render partial: 'shared/links', locals: { resource: answer }          
 
           br
-          p= render partial: 'shared/attachments', locals: { resource: answer, del: false }
+          p= render partial: 'shared/attachments', locals: { resource: answer }
           
           br
           p= render 'answers/form', answer: answer

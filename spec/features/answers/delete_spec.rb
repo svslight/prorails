@@ -26,12 +26,12 @@ feature 'User can delete his answer', %q(
       expect(page).not_to have_content answer.body
     end
 
-    scenario 'wants to delete another user answer' do
-      within("#answer-#{other_answer.id}") do
-        expect(page).to have_content other_answer.body
-        expect(page).to_not have_link 'Delete'
-      end
-    end
+    # scenario 'wants to delete another user answer' do
+    #   within("#answer-#{other_answer.id}") do
+    #     expect(page).to have_content other_answer.body
+    #     expect(page).to_not have_link 'Delete'
+    #   end
+    # end
   end
 
   describe 'Unauthenticated user' do

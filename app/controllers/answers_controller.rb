@@ -1,14 +1,16 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!
+
   include Voted
   include AnswersHelper
 
-  before_action :authenticate_user!
-  after_action :publish_answer, only: [:create]
-
-  expose :answer
+  expose :answers, -> { Answer.all }
+  expose :answer, -> { params[:id] ? Answer.with_attached_files.find(params[:id]) : Answer.new }
   expose :question, -> { Question.find(params[:question_id]) }
 
   authorize_resource
+
+  after_action :publish_answer, only: [:create]
 
   def create
     @exposed_answer = question.answers.create(answer_params.merge(author_id: current_user.id))
@@ -20,6 +22,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
+    authorize! :destroy, answer
     answer.destroy
   end
 

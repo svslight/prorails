@@ -10,17 +10,17 @@ feature 'User can vote for the question', %q(
   given!(:other_user) { create(:user) }
   given!(:question) { create(:question, author: user) }
 
-  describe 'Unauthenticated user tries' do
-    scenario 'vote an question' do
-      visit question_path(question)
+  # describe 'Unauthenticated user tries' do
+  #   scenario 'vote an question' do
+  #     visit question_path(question)
 
-      within(".vote-question-block-#{question.id}") do
-        find('.vote-up').click
-      end
+  #     within(".vote-question-block-#{question.id}") do
+  #       find('.vote-up').click
+  #     end
 
-      expect(page).to have_content 'You need to sign in or sign up before continuing.'
-    end
-  end
+  #     expect(page).to have_content 'You need to sign in or sign up before continuing.'
+  #   end
+  # end
 
   describe 'Not the author votes for the question', js: true do
     before do

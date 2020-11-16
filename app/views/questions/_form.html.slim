@@ -1,5 +1,6 @@
 
 p= form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
+  br
   h6
     strong Forms editing question
   .form-group
@@ -9,13 +10,17 @@ p= form_with model: question, class: 'hidden', html: { id: "edit-question-#{ques
     = f.label :body, 'Body'
     = f.text_area :body, class: 'form-control'
 
-  p= render partial: 'shared/attachments', locals: { resource: question, del: true }
+  br
+  = render partial: 'shared/attachments', locals: { resource: question }
+
+  br
   .form-group
     = f.label :files, class: 'mr-2'
     = f.file_field :files, multiple: true
- 
+  
+  br
   p 
-    strong Links:
+    strong Add Links and Gists:
   #links.border.p-2
     = f.fields_for :links do |link|
       div id = "question_nested_form_#{question.id}"

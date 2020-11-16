@@ -38,7 +38,7 @@ class QuestionsController < ApplicationController
 
   def destroy
     question.destroy
-    redirect_to questions_path, notice: 'Your question was successfully deleted.'   
+    redirect_to questions_path, notice: 'Your question was successfully deleted.'
   end
 
   private
@@ -57,12 +57,30 @@ class QuestionsController < ApplicationController
     return if question.errors.any?
 
     ActionCable.server.broadcast(
-      'questions',
-      ApplicationController.render(
-        partial: 'questions/question',
-        locals: { question: question, current_user: nil }
-      )      
+      'questions', question: render_question
+
+      # ApplicationController.render(
+      #   partial: 'questions/question',
+      #   locals: { question: question, current_user: nil }
+      # )      
     )
+  end
+
+  def render_question
+    ApplicationController.renderer.instance_variable_set(
+      :@env, {
+        "HTTP_HOST"=>"localhost:3000", 
+        "HTTPS"=>"off", 
+        "REQUEST_METHOD"=>"GET", 
+        "SCRIPT_NAME"=>"",   
+        "warden" => warden
+      }
+    )
+  
+    ApplicationController.render(
+      partial: 'questions/question',
+      locals: { question: question, current_user: nil }
+    )    
   end
 
   def set_question
