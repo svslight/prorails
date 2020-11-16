@@ -32,10 +32,9 @@ class Ability
     can :destroy, Link, linkable: { author_id: user.id }
     can :read, Reward
  
-    # can :destroy, ActiveStorage::Attachment, record: { author_id: user.id }
-    # can :destroy, ActiveStorage::Attachment do |file|
-    #   user.author?(file.record)
-    # end
+    can :destroy, ActiveStorage::Attachment do |file|
+      user.author?(file.record)
+    end
 
     can [:vote_up, :vote_down], [Question, Answer] do |voteable|
       !user.author?(voteable) && !voteable.votes.exists?(user_id: user.id)
