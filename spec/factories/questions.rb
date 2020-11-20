@@ -1,15 +1,13 @@
 FactoryBot.define do
   factory :question do
-    title { "MyString" }
-    body { "MyText" }
-    user
+    association :author, factory: :user
 
-    # sequence(:title) { |n| "Title#{n}" }
-    # sequence(:body) { |n| "Question Body#{n}" }
-    # user
+    sequence(:title) { |n| "Title#{n}" }
+    sequence(:body) { |n| "Question Body#{n}" }
 
     trait :invalid do
-      title {nil}      
+      title {nil}
+      body { nil }  
     end
 
     trait :with_files do

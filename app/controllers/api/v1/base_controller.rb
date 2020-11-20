@@ -1,6 +1,8 @@
 class Api::V1::BaseController < ApplicationController
   before_action :doorkeeper_authorize!
 
+  skip_authorization_check
+
   private
 
   def current_resource_owner

@@ -9,6 +9,8 @@ Doorkeeper.configure do
   resource_owner_authenticator do
     current_user || warden.authenticate!(scope: :user)
   end
+  
+  # User.find_by_id(session[:user_id]) || redirect_to(new_user_session_path)
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
   # file then you need to declare this block in order to restrict access to the web interface for
@@ -226,7 +228,7 @@ Doorkeeper.configure do
   # For more information go to
   # https://doorkeeper.gitbook.io/guides/ruby-on-rails/scopes
   #
-  # default_scopes  :public
+  default_scopes  :public
   # optional_scopes :write, :update
 
   # Allows to restrict only certain scopes for grant_type.
