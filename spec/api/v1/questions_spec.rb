@@ -17,11 +17,9 @@ describe 'Questions API', type: :request do
       let(:access_token) { create(:access_token) }
       let!(:questions) { create_list(:question, 2) }
 
-      # Тестирование возврата списка ответов на первом элементе
       let(:question) { (questions.first)}
       
       # (json) parse - вызывается из spec/support/api_helpers.rb
-      # из ответа берем нужный элемент, а не весь первый объект
       let(:question_response) { json['questions'].first }
 
       # Объявляем создание ответов перед before чтобы ответы возвращались с вопросами
@@ -29,21 +27,23 @@ describe 'Questions API', type: :request do
 
       before { get api_path, params: { access_token: access_token.token }, headers: headers }
 
-      it 'returns 200 status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like 'API Successfulable'
 
       it 'return list of qiestions' do
         expect(json['questions'].size).to eq 2
       end
 
-      it 'returns all public files' do
-        %w[id title body created_at updated_at].each  do |attr|
-          expect(question_response[attr]).to eq question.send(attr).as_json
-        end
+      it_behaves_like 'API Publicfileable' do
+        let(:attributes) { %w[id title body created_at updated_at] }
+        let(:json_object) { question_response }
+        let(:object) { question }
       end
+      # it 'returns all public files' do
+      #   %w[id title body created_at updated_at].each  do |attr|
+      #     expect(question_response[attr]).to eq question.send(attr).as_json
+      #   end
+      # end
 
-      # проверим что author_id возвращает author_id
       it 'contains author object' do
         expect(question_response['author']['id']).to eq question.author.id
       end
@@ -66,11 +66,16 @@ describe 'Questions API', type: :request do
           expect(question_response['answers'].size).to eq 3
         end
 
-        it 'returns all public fields' do
-          %w[id body created_at updated_at].each do |attr|
-            expect(answer_response[attr]).to eq answer.send(attr).as_json
-          end
+        it_behaves_like 'API Publicfileable' do
+          let(:attributes) { %w[id body created_at updated_at] }
+          let(:json_object) { answer_response }
+          let(:object) { answer }
         end
+        # it 'returns all public fields' do
+        #   %w[id body created_at updated_at].each do |attr|
+        #     expect(answer_response[attr]).to eq answer.send(attr).as_json
+        #   end
+        # end
       end
     end
   end
