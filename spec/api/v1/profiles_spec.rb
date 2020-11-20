@@ -23,11 +23,11 @@ describe 'Profiles API', type: :request do
         expect(response).to be_successful
       end
 
-      # parse - вызывается из spec/support/api_helpers.rb
+      # json(parse) - вызывается из spec/support/api_helpers.rb
       # as_json - преобразует в формат json но не в строку (для date)
       it 'returns all public files' do
         %w[id email admin created_at updated_at].each  do |attr|
-          expect(json[attr]).to eq me.send(attr).as_json
+          expect(json['user'][attr]).to eq me.send(attr).as_json
         end
       end
 
