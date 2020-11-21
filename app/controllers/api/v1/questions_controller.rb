@@ -21,8 +21,9 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     render json: question.update(question_params)
   end
 
-  def destroy
-    render json: question.destroy
+  def destroy    
+    render json:  {}, status: :ok if question.destroy
+    # render json: question.destroy
   end
 
   private

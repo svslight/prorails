@@ -1,7 +1,5 @@
 shared_examples_for 'API Authorizable' do
-  # этот подход не гибкий т.к. для создания такая shared speca не пройдет
-  # сделаем универсальный метод (do_request) в spec/support/api_helpers.rb
-  # do_request(method-который будем исполь для запроса, path, options={} )
+  # do_request(method, path, options={} ) в spec/support/api_helpers.rb
   # get меняем на do_request
   # в спеках добавить let(:method) { :get }
   context 'unauthorized' do

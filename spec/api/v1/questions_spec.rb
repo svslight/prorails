@@ -4,7 +4,7 @@ describe 'Questions API', type: :request do
   let(:headers) {{ "CONTENT_TYPE" => "application/json",
                      "ACCEPT" => 'application/json' }}
 
-  describe 'GET INDEX /api/v1/questions' do
+  describe 'GET index /api/v1/questions' do
 
     let(:api_path) {  '/api/v1/questions' }
 
@@ -50,10 +50,10 @@ describe 'Questions API', type: :request do
 
       describe 'answers' do        
         let(:answer) { answers.first }        
-        let(:answer_response) { question_response['answers'].first }  # Берем внутри объекта answers первый элемент
+        let(:answer_response) { question_response['answers'].first }
       
         it 'returns list of answers' do
-          expect(question_response['answers'].size).to eq 3   # Проверяем что возвращается список ответов
+          expect(question_response['answers'].size).to eq 3 
         end
 
         # returns all public fields answer
@@ -71,7 +71,7 @@ describe 'Questions API', type: :request do
     end
   end
 
-  describe 'GET SHOW /api/v1/questions/id' do
+  describe 'GET show /api/v1/questions/id' do
     let!(:question) { create(:question, :with_files) }
     let(:api_path) { "/api/v1/questions/#{question.id}" }
     let(:question_response) { json['question'] }
@@ -92,16 +92,16 @@ describe 'Questions API', type: :request do
       it_behaves_like 'API Successfulable'
 
       # returns all public files question
-      # it_behaves_like 'API Publicfileable' do
-      #   let(:attributes) { %w[id title body created_at updated_at] }
-      #   let(:json_object) { question_response }
-      #   let(:object) { question }
-      # end
-      it 'returns all public files' do
-        %w[id title body created_at updated_at].each  do |attr|
-          expect(question_response[attr]).to eq question.send(attr).as_json
-        end
+      it_behaves_like 'API Publicfileable' do
+        let(:attributes) { %w[id title body created_at updated_at] }
+        let(:json_object) { question_response }
+        let(:object) { question }
       end
+      # it 'returns all public files' do
+      #   %w[id title body created_at updated_at].each  do |attr|
+      #     expect(question_response[attr]).to eq question.send(attr).as_json
+      #   end
+      # end
 
       it 'contains short title' do
         expect(question_response['short_title']).to eq question.title.truncate(7)
@@ -116,16 +116,16 @@ describe 'Questions API', type: :request do
         end
 
         # returns all public fields answer
-        # it_behaves_like 'API Publicfileable' do
-        #   let(:attributes) { %w[id body created_at updated_at] }
-        #   let(:json_object) { answer_response }
-        #   let(:object) { answer }
-        # end
-        it 'returns all public fields' do
-          %w[id body user_id created_at updated_at].each do |attr|
-            expect(comment_response[attr]).to eq comment.send(attr).as_json
-          end
+        it_behaves_like 'API Publicfileable' do
+          let(:attributes) { %w[id body user_id created_at updated_at] }
+          let(:json_object) { comment_response }
+          let(:object) { comment }
         end
+        # it 'returns all public fields' do
+        #   %w[id body user_id created_at updated_at].each do |attr|
+        #     expect(comment_response[attr]).to eq comment.send(attr).as_json
+        #   end
+        # end
       end
 
       describe 'links' do
@@ -136,11 +136,17 @@ describe 'Questions API', type: :request do
           expect(link_response['id']).to eq question.links.first.id
         end
 
-        it 'returns all public fields' do
-          %w[id name url created_at updated_at].each do |attr|
-            expect(link_response[attr]).to eq link.send(attr).as_json         
-          end
+        # returns all public fields answer
+        it_behaves_like 'API Publicfileable' do
+          let(:attributes) { %w[id name url created_at updated_at] }
+          let(:json_object) { link_response }
+          let(:object) { link }
         end
+        # it 'returns all public fields' do
+        #   %w[id name url created_at updated_at].each do |attr|
+        #     expect(link_response[attr]).to eq link.send(attr).as_json         
+        #   end
+        # end
       end
 
       describe 'files' do
@@ -151,9 +157,9 @@ describe 'Questions API', type: :request do
           expect(question_response['files'].size).to eq question.files.count
         end
 
-        # it 'returns url file' do
-        #   expect(json['question']['files'].first['id']).to eq question.files.first.id
-        # end
+        it 'contains files url' do
+          expect(json['question']['files'].first['id']).to eq question.files.first.id
+        end
       end
 
       describe 'answers' do
@@ -164,11 +170,16 @@ describe 'Questions API', type: :request do
           expect(answer_response.size).to eq question.answers.count
         end
 
-        it 'returns all public fields' do
-          %w[id body best author_id created_at updated_at].each do |attr|
-            expect(answer_response.first[attr]).to eq answer.send(attr).as_json
-          end
+        it_behaves_like 'API Publicfileable' do
+          let(:attributes) { %w[id body best author_id created_at updated_at] }
+          let(:json_object) { answer_response.first }
+          let(:object) { answer }
         end
+        # it 'returns all public fields' do
+        #   %w[id body best author_id created_at updated_at].each do |attr|
+        #     expect(answer_response.first[attr]).to eq answer.send(attr).as_json
+        #   end
+        # end
       end
     end
   end
@@ -186,20 +197,12 @@ describe 'Questions API', type: :request do
       let(:access_token) {create(:access_token)}
       let(:question) { create(:question) }
 
-      before {post api_path, params: { question: {user_id: user.id, title: 'test Title', body: 'test Body' }, 
-                                        access_token: access_token.token }, headers: headers}
+      before {post api_path, params: {access_token: access_token.token,  question: attributes_for(:question) }, headers: headers }
 
-      it 'returns 200 status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like 'API Successfulable'              
 
       it 'returns question' do
         expect(json.size).to eq 1
-      end
-
-      it 'contains title and body of question' do
-        expect(json['question']['title']).to eq "test Title"
-        expect(json['question']['body']).to eq "test Body"
       end
     end
   end
@@ -217,9 +220,7 @@ describe 'Questions API', type: :request do
     context 'authorized' do
       before { patch api_path, params: { access_token: access_token.token, question: { title: 'Changed Title' } }, headers: headers }
 
-      it 'returns 200 status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like 'API Successfulable'
 
       it 'Update question' do
         question.reload
@@ -241,13 +242,9 @@ describe 'Questions API', type: :request do
     context 'authorized' do
       before { delete api_path, params: { access_token: access_token.token }, headers: headers }
 
-      it 'returns 200 status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like 'API Successfulable'
 
       it 'return empty json' do
-        # expect { delete api_path, params: { access_token: access_token.token } }.to change(Question, :count).by(-1)
-        delete api_path, params: { access_token: access_token.token }, headers: headers
         expect(json).to be_empty
       end
     end
