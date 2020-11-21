@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :question do
     association :author, factory: :user
-
+    
     sequence(:title) { |n| "Title#{n}" }
     sequence(:body) { |n| "Question Body#{n}" }
 

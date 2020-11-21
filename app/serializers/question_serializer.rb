@@ -1,9 +1,13 @@
 class QuestionSerializer < ActiveModel::Serializer
-
+  include Rails.application.routes.url_helpers
+  
   attributes :id, :title, :body, :created_at, :updated_at, :short_title
 
-  # Включение коллекции ответов
+  # Включение коллекций
   has_many :answers
+  has_many :comments
+  has_many :links
+  has_many :files
 
   # Включение отвельных ассоциаций
   belongs_to :author
