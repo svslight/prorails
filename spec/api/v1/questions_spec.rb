@@ -2,7 +2,10 @@ require 'rails_helper'
 
 describe 'Questions API', type: :request do
   let(:headers) {{ "CONTENT_TYPE" => "application/json",
-                     "ACCEPT" => 'application/json' }}
+    "ACCEPT" => 'application/json' }}
+
+  let(:access_token) { create(:access_token) }
+  let!(:question) { create(:question) }
 
   describe 'GET index /api/v1/questions' do
 
@@ -13,9 +16,7 @@ describe 'Questions API', type: :request do
     end
 
     context 'authorized' do
-      let(:access_token) { create(:access_token) }
       let!(:questions) { create_list(:question, 2) }
-
       let(:question) { (questions.first)}   
       let(:question_response) { json['questions'].first }
       let!(:answers) {create_list(:answer, 3, question: question)}
@@ -24,21 +25,16 @@ describe 'Questions API', type: :request do
 
       it_behaves_like 'API Successfulable'
 
-      it 'return list of qiestions' do
-        expect(json['questions'].size).to eq 2
+      it_behaves_like 'API Objectable' do
+        let(:object) { json['questions'] }
+        let(:count) { 2 }
       end
 
-      # returns all public files question
       it_behaves_like 'API Publicfileable' do
         let(:attributes) { %w[id title body created_at updated_at] }
         let(:json_object) { question_response }
         let(:object) { question }
       end
-      # it 'returns all public files' do
-      #   %w[id title body created_at updated_at].each  do |attr|
-      #     expect(question_response[attr]).to eq question.send(attr).as_json
-      #   end
-      # end
 
       it 'contains author object' do
         expect(question_response['author']['id']).to eq question.author.id
@@ -52,21 +48,16 @@ describe 'Questions API', type: :request do
         let(:answer) { answers.first }        
         let(:answer_response) { question_response['answers'].first }
       
-        it 'returns list of answers' do
-          expect(question_response['answers'].size).to eq 3 
+        it_behaves_like 'API Objectable' do
+          let(:object) { question_response['answers'] }
+          let(:count) { 3 }
         end
 
-        # returns all public fields answer
         it_behaves_like 'API Publicfileable' do
           let(:attributes) { %w[id body created_at updated_at] }
           let(:json_object) { answer_response }
           let(:object) { answer }
         end
-        # it 'returns all public fields' do
-        #   %w[id body created_at updated_at].each do |attr|
-        #     expect(answer_response[attr]).to eq answer.send(attr).as_json
-        #   end
-        # end
       end
     end
   end
@@ -87,21 +78,16 @@ describe 'Questions API', type: :request do
     context 'authorized' do
       let(:me) { create(:user) }
       let(:access_token) { create(:access_token, resource_owner_id: me.id) }
+
       before { get "/api/v1/questions/#{question.id}", params: { access_token: access_token.token }, headers: headers }
 
       it_behaves_like 'API Successfulable'
 
-      # returns all public files question
       it_behaves_like 'API Publicfileable' do
         let(:attributes) { %w[id title body created_at updated_at] }
         let(:json_object) { question_response }
         let(:object) { question }
       end
-      # it 'returns all public files' do
-      #   %w[id title body created_at updated_at].each  do |attr|
-      #     expect(question_response[attr]).to eq question.send(attr).as_json
-      #   end
-      # end
 
       it 'contains short title' do
         expect(question_response['short_title']).to eq question.title.truncate(7)
@@ -115,17 +101,11 @@ describe 'Questions API', type: :request do
           expect(comment_response['id']).to eq question.comments.first.id
         end
 
-        # returns all public fields answer
         it_behaves_like 'API Publicfileable' do
           let(:attributes) { %w[id body user_id created_at updated_at] }
           let(:json_object) { comment_response }
           let(:object) { comment }
         end
-        # it 'returns all public fields' do
-        #   %w[id body user_id created_at updated_at].each do |attr|
-        #     expect(comment_response[attr]).to eq comment.send(attr).as_json
-        #   end
-        # end
       end
 
       describe 'links' do
@@ -136,25 +116,20 @@ describe 'Questions API', type: :request do
           expect(link_response['id']).to eq question.links.first.id
         end
 
-        # returns all public fields answer
         it_behaves_like 'API Publicfileable' do
           let(:attributes) { %w[id name url created_at updated_at] }
           let(:json_object) { link_response }
           let(:object) { link }
         end
-        # it 'returns all public fields' do
-        #   %w[id name url created_at updated_at].each do |attr|
-        #     expect(link_response[attr]).to eq link.send(attr).as_json         
-        #   end
-        # end
       end
 
       describe 'files' do
         let(:file) { question.files.first }
         let(:file_response) { question_response['files'].first }
 
-        it 'returns urls of files' do
-          expect(question_response['files'].size).to eq question.files.count
+        it_behaves_like 'API Objectable' do
+          let(:object) { question_response['files'] }
+          let(:count) { question.files.count }
         end
 
         it 'contains files url' do
@@ -166,8 +141,9 @@ describe 'Questions API', type: :request do
         let(:answer) { answers.first }
         let(:answer_response) { question_response['answers'] }
 
-        it 'returns list of answers' do
-          expect(answer_response.size).to eq question.answers.count
+        it_behaves_like 'API Objectable' do
+          let(:object) { answer_response }
+          let(:count) { question.answers.count }
         end
 
         it_behaves_like 'API Publicfileable' do
@@ -175,11 +151,6 @@ describe 'Questions API', type: :request do
           let(:json_object) { answer_response.first }
           let(:object) { answer }
         end
-        # it 'returns all public fields' do
-        #   %w[id body best author_id created_at updated_at].each do |attr|
-        #     expect(answer_response.first[attr]).to eq answer.send(attr).as_json
-        #   end
-        # end
       end
     end
   end
@@ -193,24 +164,20 @@ describe 'Questions API', type: :request do
     end
 
     context 'authorized' do
-      let(:user) { create(:user) }
-      let(:access_token) {create(:access_token)}
-      let(:question) { create(:question) }
 
       before {post api_path, params: {access_token: access_token.token,  question: attributes_for(:question) }, headers: headers }
 
       it_behaves_like 'API Successfulable'              
 
-      it 'returns question' do
-        expect(json.size).to eq 1
+      it_behaves_like 'API Objectable' do
+        let(:object) { json }
+        let(:count) { 1 }
       end
     end
   end
 
   describe 'PACH UPDATE /api/v1/questions/id' do
     let(:headers) { { "ACCEPT" => 'application/json' } }
-    let(:access_token) {create(:access_token)}
-    let!(:question) { create(:question) }
     let(:api_path) { "/api/v1/questions/#{question.id}" }
 
     it_behaves_like 'API Authorizable' do
@@ -231,8 +198,6 @@ describe 'Questions API', type: :request do
 
   describe 'DESTROY /api/v1/questions/id' do
     let(:headers) { { "ACCEPT" => 'application/json' } }    
-    let!(:question) { create(:question) }
-    let(:access_token) {create(:access_token)}
     let(:api_path) { "/api/v1/questions/#{question.id}" }
 
     it_behaves_like 'API Authorizable' do

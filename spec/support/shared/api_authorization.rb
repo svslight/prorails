@@ -1,7 +1,5 @@
 shared_examples_for 'API Authorizable' do
-  # do_request(method, path, options={} ) в spec/support/api_helpers.rb
-  # get меняем на do_request
-  # в спеках добавить let(:method) { :get }
+
   context 'unauthorized' do
     it 'returns 401 status if there is no access_token' do
       do_request(method, api_path, headers: headers)
@@ -26,9 +24,6 @@ shared_examples_for 'API Publicfileable' do
     attributes.each do |attr|
       expect(json_object[attr]).to eq object.send(attr).as_json
     end
-    # %w[id email admin created_at updated_at].each  do |attr|
-    #   expect(json['user'][attr]).to eq me.send(attr).as_json
-    # end
   end
 end
 
@@ -37,8 +32,11 @@ shared_examples_for 'API Privatefileable' do
     attributes.each do |attr|
       expect(json_object).not_to have_key(attr)
     end
-    # %w[password encrypted_password].each do |attr|
-    #   expect(json).not_to have_key(attr)
-    # end
+  end
+end
+
+shared_examples_for 'API Objectable' do
+  it 'return list of object' do
+    expect(object.size).to eq count
   end
 end
