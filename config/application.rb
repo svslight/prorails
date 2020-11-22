@@ -19,7 +19,10 @@ module Prorails
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
-    # config.autoload_paths += [config.root.join('app')]
+    # sidekiq - инструмент для фоновых задач, использует Redis в качестве БД
+    config.active_job.queue_adapter = :sidekiq
+    
+    config.autoload_paths += [config.root.join('app')]
 
     # config.time_zone = 'Moscow'
     # config.time_zone = 'Eastern Time (US & Canada)' 

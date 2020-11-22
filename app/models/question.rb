@@ -15,7 +15,19 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
+  # указывем вызов (сервис для вычисления репутации)
+  # через метод after_create
+  after_create :calculate_reputation
+
   def rating
     self.votes.sum(:value)
   end
+
+  private
+
+  # Вызов фоновой задачи ReputationJob
+  def calculate_reputation
+    ReputationJob.perform_later(self)
+  end
+
 end
