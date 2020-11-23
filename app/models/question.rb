@@ -15,9 +15,11 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
-  # указывем вызов (сервис для вычисления репутации)
-  # через метод after_create
+  # Вызов сервис для вычисления
   after_create :calculate_reputation
+
+  scope :last_day, -> { where(created_at: Date.yesterday.all_day) }
+    # where('created_at >= ?', 1.day.ago)
 
   def rating
     self.votes.sum(:value)

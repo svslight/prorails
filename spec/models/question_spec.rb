@@ -25,7 +25,6 @@ RSpec.describe Question, type: :model do
   # perform_now - выполняет задачу синхронно
   # perform_later - добавляет задачу в очередь
   # и все это происходит когда сохраняем объект question.save!
-  # (!) - чтобы узнать об ошибках
   describe "reputation" do
     let(:question) { build(:question) }
     
