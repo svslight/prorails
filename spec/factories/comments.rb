@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :comment do
-    body { 'Test' }
+    user
+    sequence(:body) { |n| "Comment#{n}" }
 
     trait :invalid do
       body { nil }

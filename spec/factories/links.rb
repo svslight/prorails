@@ -1,7 +1,14 @@
 FactoryBot.define do
   factory :link do
-    name { 'Google' }
-    url { 'https://google.com' }
+
+    # sequence(:name) { |n| "URL #{n}" }
+    # sequence(:url) { |n| "https://example.com/#{n}" }
+
+    # name { 'Google' }
+    # url { 'https://google.com' }
+
+    name { 'Link' }
+    url { 'https://example.com' }
   end
 
   factory :gist_link, class: Link do

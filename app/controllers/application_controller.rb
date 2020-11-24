@@ -1,7 +1,9 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user!, unless: :devise_controller?
-  before_action :gon_user, unless: :devise_controller?
 
+  # before_action :authenticate_user!, unless: :devise_controller?
+
+  before_action :gon_user, unless: :devise_controller?  
+  
   # обработчик исключений: вызов стандартного сообщения 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, alert: exception.message
