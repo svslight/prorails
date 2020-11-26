@@ -18,8 +18,7 @@ class Question < ApplicationRecord
   # Вызов сервис для вычисления
   after_create :calculate_reputation
 
-  scope :last_day, -> { where(created_at: Date.yesterday.all_day) }
-    # where('created_at >= ?', 1.day.ago)
+  scope :last_day, -> { where('created_at >= ?', 2.day.ago) }
 
   def rating
     self.votes.sum(:value)

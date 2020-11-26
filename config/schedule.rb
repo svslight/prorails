@@ -12,7 +12,8 @@
 #   runner "MyModel.some_method"
 #   rake "some:great:rake:task"
 # end
-#
+# every :day, at: '18:41am' do
+
 every 1.days do
   runner "DailyDigestJob.perform_now"
 end

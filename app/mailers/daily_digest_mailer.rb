@@ -5,12 +5,11 @@ class DailyDigestMailer < ApplicationMailer
   #
   #   en.daily_digest_mailer.digest.subject
   #
-  # метод digest будет формирует и отсылает письмо
-  # нужно указывать адрес конкретного usera  #{user.name}
+  # метод digest формирует письмо
   def digest(user)
-    @greeting = "Hi #{user.name}"
+    @greeting = "Hi"
     @questions = Question.last_day
 
-    mail to: user.email, subject: 'Daily digest'
+    mail to: user.email
   end
 end

@@ -24,7 +24,7 @@ module Prorails
     
     config.autoload_paths += [config.root.join('app')]
 
-    # config.time_zone = 'Moscow'
+    config.time_zone = 'Moscow'
     # config.time_zone = 'Eastern Time (US & Canada)' 
 
     # config.action_cable.disable_request_forgery_protection = false
