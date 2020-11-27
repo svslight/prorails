@@ -32,5 +32,15 @@ RSpec.describe Question, type: :model do
       expect(ReputationJob).to receive(:perform_later).with(question)
       question.save!
     end
-  end  
+  end
+  
+  describe 'subscribe_author' do
+    let!(:user) { create(:user) }
+    let!(:question) { create(:question, author: user) }
+
+    it 'create subscribe for author of question' do
+      expect(user.subscriptions.count).to eq 1
+      expect(question.subscriptions.count).to eq 1
+    end
+  end
 end
