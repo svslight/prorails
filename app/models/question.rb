@@ -6,7 +6,7 @@ class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
   has_many :votes, dependent: :destroy, as: :voteable
-  # has_many :comments, dependent: :destroy, as: :commentable
+  has_many :subscriptions, dependent: :destroy
 
   has_many_attached :files
   
@@ -15,8 +15,8 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
-  # Вызов сервис для вычисления
-  after_create :calculate_reputation
+  after_create :calculate_reputation  
+  after_create :subscribe_author
 
   scope :last_day, -> { where('created_at >= ?', 2.day.ago) }
 
@@ -25,6 +25,10 @@ class Question < ApplicationRecord
   end
 
   private
+
+  def subscribe_author
+    subscriptions.create(user: author)
+  end
 
   # Вызов фоновой задачи ReputationJob
   def calculate_reputation
