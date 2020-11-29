@@ -50,4 +50,19 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#subscribed?' do
+    let!(:user) { create(:user) }
+    let!(:question) { create(:question, author: user) }
+    let!(:subscription) { create(:subscription, question: question) }
+
+    let!(:other_user) { create(:user) }
+
+    it 'User subscribed to question' do
+      expect(user).to be_subscribed(subscription.question)
+    end
+
+    it 'User not subscribed to question' do
+      expect(other_user).to_not be_subscribed(subscription.question)
+    end
+  end
 end

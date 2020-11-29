@@ -3,6 +3,7 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: %i[index show]  
   before_action :set_question, only: [:show, :destroy, :update]
+  before_action :load_subscription, only: %i[show update]
   
   # Передача данных в stream
   after_action :publish_question, only: [:create]
@@ -42,6 +43,10 @@ class QuestionsController < ApplicationController
   end
 
   private
+
+  def load_subscription
+    @subscription = question.subscriptions.find_by(user: current_user)
+  end
 
   def question_params
     params.require(:question).permit(

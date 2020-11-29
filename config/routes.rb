@@ -1,4 +1,10 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
   use_doorkeeper
 
   root to: "questions#index"
@@ -20,6 +26,8 @@ Rails.application.routes.draw do
     resources :answers, concerns: %i[voteable commentable], except: :index do
       post :mark_best, on: :member
     end
+
+    resources :subscriptions, only: %i[create destroy], shallow: true
   end
   
   resources :attachments, only: :destroy
@@ -30,9 +38,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :profiles, only: [] do
+      resources :profiles, only: [:index] do
         get :me, on: :collection
-        get :index, on: :collection
       end
 
       resources :questions, except: %i[new edit] do

@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.6'
@@ -60,6 +60,13 @@ gem 'pundit'
 gem 'doorkeeper', '>= 5.0'
 gem 'active_model_serializers', '~> 0.10'
 gem 'oj'
+
+# Tool for background tasks that uses Redis as a database
+gem 'sidekiq'
+# Interface for sidekiq
+gem 'sinatra', require: false
+# Cron jobs in Ruby
+gem 'whenever', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

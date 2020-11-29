@@ -18,4 +18,29 @@ RSpec.describe Question, type: :model do
   it 'have many attached files' do
     expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
+
+  # тестируем сервис для вычисления репутации
+  # делаем build - дистанциируем в памяти но не сохраняем в бд
+  # для тестирования вызываем класс фоновой задачи и perform_later
+  # perform_now - выполняет задачу синхронно
+  # perform_later - добавляет задачу в очередь
+  # и все это происходит когда сохраняем объект question.save!
+  describe "reputation" do
+    let(:question) { build(:question) }
+    
+    it 'calls ReputationJob#perform_later' do
+      expect(ReputationJob).to receive(:perform_later).with(question)
+      question.save!
+    end
+  end
+  
+  describe 'subscribe_author' do
+    let!(:user) { create(:user) }
+    let!(:question) { create(:question, author: user) }
+
+    it 'create subscribe for author of question' do
+      expect(user.subscriptions.count).to eq 1
+      expect(question.subscriptions.count).to eq 1
+    end
+  end
 end
