@@ -1,4 +1,4 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.6'
@@ -68,6 +68,10 @@ gem 'sinatra', require: false
 # Cron jobs in Ruby
 gem 'whenever', require: false
 
+# Thinking Sphinx is a library for connecting ActiveRecord to the Sphinx full-text search tool
+gem 'mysql2', '~> 0.3', :platform => :ruby
+gem 'thinking-sphinx', '~> 4.4'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -75,6 +79,8 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'letter_opener'
   gem 'launchy'
+  # Clean your ActiveRecord databases with Database Cleaner
+  gem 'database_cleaner-active_record'
 end
 
 group :development do
@@ -84,7 +90,6 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  # gem 'letter_opener'
 end
 
 group :test do

@@ -2,6 +2,7 @@ nav.navbar.navbar-light style="background-color: #e3f2fd;"
   .container
     = link_to root_path, class: 'navbar-brand' do
       |Questions and Answers
+    = render 'search/form'
     div.ml-auto
       - if user_signed_in?
         = link_to 'Log out', destroy_user_session_path, method: :delete, class: 'nav-link'
