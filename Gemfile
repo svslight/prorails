@@ -69,8 +69,8 @@ gem 'sinatra', require: false
 gem 'whenever', require: false
 
 # Thinking Sphinx is a library for connecting ActiveRecord to the Sphinx full-text search tool
-gem 'mysql2', '~> 0.3', :platform => :ruby
-gem 'thinking-sphinx', '~> 4.4'
+gem 'mysql2'
+gem 'thinking-sphinx'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
