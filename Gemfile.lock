@@ -483,6 +483,7 @@ DEPENDENCIES
   sass-rails (>= 6)
   selenium-webdriver
   shoulda-matchers
+  sidekiq (< 6)
   sinatra
   skim (~> 0.10.0)
   slim-rails
