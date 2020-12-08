@@ -60,7 +60,25 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "prorails_production"
 
+  # Don't care if the mailer can't send.
+  config.action_mailer.raise_delivery_errors = false
   config.action_mailer.perform_caching = false
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { host:'194.67.116.5' }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default :charset => "utf-8"
+  config.action_mailer.smtp_settings = {
+    :tls => true,
+    address:              'smtp.yandex.ru',
+    port:                 465,
+    domain:               "localhost:3000",
+    user_name:            'svslight@yandex.ru',
+    password:             'password',
+    authentication:       'plain',
+    enable_starttls_auto: true
+  }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
