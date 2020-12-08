@@ -65,10 +65,10 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     airbrussh (1.4.0)
       sshkit (>= 1.6.1, != 1.7.0)
-    autoprefixer-rails (10.0.3.0)
+    autoprefixer-rails (10.1.0.0)
       execjs
     aws-eventstream (1.1.0)
-    aws-partitions (1.402.0)
+    aws-partitions (1.404.0)
     aws-sdk-core (3.110.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
@@ -109,6 +109,9 @@ GEM
     capistrano-rvm (0.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
+    capistrano-sidekiq (1.0.3)
+      capistrano (>= 3.9.0)
+      sidekiq (>= 3.4, < 6.0)
     capybara (3.34.0)
       addressable
       mini_mime (>= 0.1.3)
@@ -224,10 +227,10 @@ GEM
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
-    octicons (11.1.0)
+    octicons (11.2.0)
       nokogiri (>= 1.6.3.1)
-    octicons_helper (11.1.0)
-      octicons (= 11.1.0)
+    octicons_helper (11.2.0)
+      octicons (= 11.2.0)
       rails
     octokit (4.19.0)
       faraday (>= 0.9)
@@ -291,7 +294,23 @@ GEM
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    redis (4.2.5)
+    redis (4.1.4)
+    redis-actionpack (5.2.0)
+      actionpack (>= 5, < 7)
+      redis-rack (>= 2.1.0, < 3)
+      redis-store (>= 1.1.0, < 2)
+    redis-activesupport (5.2.0)
+      activesupport (>= 3, < 7)
+      redis-store (>= 1.3, < 2)
+    redis-rack (2.1.3)
+      rack (>= 2.0.8, < 3)
+      redis-store (>= 1.2, < 2)
+    redis-rails (5.0.2)
+      redis-actionpack (>= 5.0, < 6)
+      redis-activesupport (>= 5.0, < 6)
+      redis-store (>= 1.2, < 2)
+    redis-store (1.9.0)
+      redis (>= 4, < 5)
     regexp_parser (1.8.2)
     request_store (1.5.0)
       rack (>= 1.4)
@@ -336,10 +355,11 @@ GEM
       rubyzip (>= 1.2.2)
     shoulda-matchers (4.4.1)
       activesupport (>= 4.2.0)
-    sidekiq (6.1.2)
-      connection_pool (>= 2.2.2)
+    sidekiq (5.2.9)
+      connection_pool (~> 2.2, >= 2.2.2)
       rack (~> 2.0)
-      redis (>= 4.2.0)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.5, < 4.2)
     sinatra (2.1.0)
       mustermann (~> 1.0)
       rack (~> 2.2)
@@ -427,6 +447,7 @@ DEPENDENCIES
   capistrano-passenger
   capistrano-rails
   capistrano-rvm
+  capistrano-sidekiq
   capybara (>= 2.15)
   capybara-email
   cocoon
@@ -456,12 +477,13 @@ DEPENDENCIES
   pundit
   rails (~> 6.0.3, >= 6.0.3.3)
   rails-controller-testing
+  redis-rails
   responders
   rspec-rails (~> 4.0.1)
   sass-rails (>= 6)
   selenium-webdriver
   shoulda-matchers
-  sidekiq
+  sidekiq (< 6)
   sinatra
   skim (~> 0.10.0)
   slim-rails

@@ -63,7 +63,11 @@ gem 'active_model_serializers', '~> 0.10'
 gem 'oj'
 
 # Tool for background tasks that uses Redis as a database
-gem 'sidekiq'
+# gem 'redis-throttle', git: 'git@github.com:andreareginato/redis-throttle.git'
+gem 'sidekiq', '< 6'
+gem 'redis-rails'
+# gem 'sidetiq'
+
 # Interface for sidekiq
 gem 'sinatra', require: false
 # Cron jobs in Ruby
@@ -98,6 +102,7 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-passenger', require: false
+  gem 'capistrano-sidekiq', require: false
 
 end
 
