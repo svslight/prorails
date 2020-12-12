@@ -20,8 +20,7 @@ module Prorails
     # the framework and any gems in your application.
 
     # sidekiq - инструмент для фоновых задач, использует Redis в качестве БД
-    config.active_job.queue_adapter = :sidekiq
-    
+    config.active_job.queue_adapter = :sidekiq    
     config.autoload_paths += [config.root.join('app')]
 
     config.time_zone = 'Moscow'
@@ -38,6 +37,8 @@ module Prorails
                         routing_specs: false,
                         request_specs: false,
                         controller_specs: true
-    end 
+    end
+
+    config.cache_store = :redis_store, 'redis://localhost:6379/0/cache', { expires_in: 90.minutes }
   end
 end

@@ -1,93 +1,94 @@
-.row.d-flex.justify-content-center
-  .col-10
-    .row
-      .col-10      
-        h1.mt-4 = question.title
-      .col-2.mt-4
-        - if can?(:create, Subscription) || can?(:destroy, @subscription)
-          .subscription
-            - if current_user.subscribed?(question)
-              = link_to 'Unsubscribe', subscription_path(@subscription), method: :delete, remote: true, class: 'unsubscribe btn btn-danger'
-            - else
-              = link_to 'Subscribe', question_subscriptions_path(question), method: :post, remote: true, class: 'subscribe btn btn-success'
-  
-    hr
-  
-    .answer-errors
-      = render 'shared/errors', resource: answer
-
-    .row
-      .col-1.text-center
-        p= render 'shared/vote_links', resource: question
-      .col-11
-        p= question.body
-        hr
-
-    hr
-        - if question.files.attached?
-          h6 Lists Attached Files:
-          ul.list-inline
-          - question.files.each do |file|
-            li.list-inline-item
-              p= link_to file.filename.to_s, url_for(file), class: 'mr-4'
-
-    br
-    - if question.links.present?
-      .links.border.p-2
-        strong Links and Gists:
-        = render partial: 'shared/links', locals: { resource: question }
-
-    br
-    - if question.reward.present?
-      .reward
-        = render question.reward
-
-    br
-    .comment-errors
-      = render 'shared/errors', resource: @resource
-
-    br
-    .row.add-question-comment
-      .col-12
-        - if can?(:create, Comment)
-          h6 Leave your Comment:
-          = render 'comments/form', resource: question
-          hr
-        h6 Comments:
-        hr
-        .question-comments
-          = render question.comments
-
-    br
-    .answers
-      = render question.answers.sort_by_best
-
-    br
-    strong Leave your Answer:
-    - if can?(:create, Answer)
-      = form_with model: [question, answer], class: 'new-answer' do |f|
-        .form-group
-          = f.label :body, 'Your answer'
-          = f.text_area :body, class: 'form-control'
-
-        p 
-          strong Add Files to the new answer:
-        .form-group.border.p-2
-          = f.label :files, class: 'mr-2'
-          = f.file_field :files, multiple: true
-
-        p 
-          strong Add Links to the new answer:
-        #links.border.p-2            
-          = f.fields_for :links do |link|
-            = render 'links/link_fields', f: link
-          .links
-            = link_to_add_association 'Add Links', f, :links, partial: 'links/link_fields', class: 'my-3 btn btn-success'
-
-        br
-        = f.submit 'Create', class: 'btn btn-success'
+- cache question do
+  .row.d-flex.justify-content-center
+    .col-10
+      .row
+        .col-10      
+          h1.mt-4 = question.title
+        .col-2.mt-4
+          - if can?(:create, Subscription) || can?(:destroy, @subscription)
+            .subscription
+              - if current_user.subscribed?(question)
+                = link_to 'Unsubscribe', subscription_path(@subscription), method: :delete, remote: true, class: 'unsubscribe btn btn-danger'
+              - else
+                = link_to 'Subscribe', question_subscriptions_path(question), method: :post, remote: true, class: 'subscribe btn btn-success'
     
-    br
-    = link_to 'Back', questions_path, class: 'btn btn-success'
+      hr
+    
+      .answer-errors
+        = render 'shared/errors', resource: answer
 
-    / = render 'answers/new', answer: question.answers.new
+      .row
+        .col-1.text-center
+          p= render 'shared/vote_links', resource: question
+        .col-11
+          p= question.body
+          hr
+
+      hr
+          - if question.files.attached?
+            h6 Lists Attached Files:
+            ul.list-inline
+            - question.files.each do |file|
+              li.list-inline-item
+                p= link_to file.filename.to_s, url_for(file), class: 'mr-4'
+
+      br
+      - if question.links.present?
+        .links.border.p-2
+          strong Links and Gists:
+          = render partial: 'shared/links', locals: { resource: question }
+
+      br
+      - if question.reward.present?
+        .reward
+          = render question.reward
+
+      br
+      .comment-errors
+        = render 'shared/errors', resource: @resource
+
+      br
+      .row.add-question-comment
+        .col-12
+          - if can?(:create, Comment)
+            h6 Leave your Comment:
+            = render 'comments/form', resource: question
+            hr
+          h6 Comments:
+          hr
+          .question-comments
+            = render question.comments
+
+      br
+      .answers
+        = render question.answers.sort_by_best
+
+      br
+      strong Leave your Answer:
+      - if can?(:create, Answer)
+        = form_with model: [question, answer], class: 'new-answer' do |f|
+          .form-group
+            = f.label :body, 'Your answer'
+            = f.text_area :body, class: 'form-control'
+
+          p 
+            strong Add Files to the new answer:
+          .form-group.border.p-2
+            = f.label :files, class: 'mr-2'
+            = f.file_field :files, multiple: true
+
+          p 
+            strong Add Links to the new answer:
+          #links.border.p-2            
+            = f.fields_for :links do |link|
+              = render 'links/link_fields', f: link
+            .links
+              = link_to_add_association 'Add Links', f, :links, partial: 'links/link_fields', class: 'my-3 btn btn-success'
+
+          br
+          = f.submit 'Create', class: 'btn btn-success'
+      
+br
+= link_to 'Back', questions_path, class: 'btn btn-success'
+
+      / = render 'answers/new', answer: question.answers.new
