@@ -13,6 +13,7 @@ Rails.application.configure do
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
+  config.active_record.cache_versioning = true
 
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
   # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
@@ -23,6 +24,7 @@ Rails.application.configure do
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Compress CSS using a preprocessor.
+  # config.assets.js_compressor = Uglifier.new(harmony: true)
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
@@ -61,23 +63,26 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "prorails_production"
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  # config.action_mailer.raise_delivery_errors = false
   config.action_mailer.perform_caching = false
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.default_url_options = { host:'194.67.116.5' }
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default :charset => "utf-8"
   config.action_mailer.smtp_settings = {
-    :tls => true,
+    # :tls => true,
     address:              'smtp.yandex.ru',
     port:                 465,
-    domain:               "localhost:3000",
-    user_name:            'svslight@yandex.ru',
-    password:             'password',
+    # domain:               "localhost:3000",
+    domain: 'yandex.ru',
+    user_name: Rails.application.credentials.yandex_mail[:login],
+    password: Rails.application.credentials.yandex_mail[:password],    
+    # user_name:            'svslight@yandex.ru',
+    # password:             'password',
     authentication:       'plain',
-    enable_starttls_auto: true
+    enable_starttls_auto: true,
+    ssl: true
   }
 
   # Ignore bad email addresses and do not raise email delivery errors.
@@ -106,6 +111,8 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # config.action_cable.allowed_request_origins = ["194.67.116.5"]
 
   # Inserts middleware to perform automatic connection switching.
   # The `database_selector` hash is used to pass options to the DatabaseSelector
