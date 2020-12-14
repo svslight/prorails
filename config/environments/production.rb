@@ -72,15 +72,12 @@ Rails.application.configure do
   config.action_mailer.default :charset => "utf-8"
   config.action_mailer.smtp_settings = {
     # :tls => true,
-    address:              'smtp.yandex.ru',
-    port:                 465,
-    # domain:               "localhost:3000",
-    domain: 'yandex.ru',
-    user_name: Rails.application.credentials.yandex_mail[:login],
-    password: Rails.application.credentials.yandex_mail[:password],    
-    # user_name:            'svslight@yandex.ru',
-    # password:             'password',
-    authentication:       'plain',
+    address: 'smtp.yandex.ru',
+    port: 465,
+    domain: 'yandex.ru',   
+    user_name: 'svslight@yandex.ru',
+    password: 'password',
+    authentication: 'plain',
     enable_starttls_auto: true,
     ssl: true
   }
