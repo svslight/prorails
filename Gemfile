@@ -65,6 +65,7 @@ gem 'oj'
 # Tool for background tasks that uses Redis as a database
 # gem 'redis-throttle', git: 'git@github.com:andreareginato/redis-throttle.git'
 gem 'sidekiq', '< 6'
+# Used for cache storage and sessions
 gem 'redis-rails'
 # gem 'sidetiq'
 
