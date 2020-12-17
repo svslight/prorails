@@ -1,16 +1,16 @@
-- cache collection_cache_key_for :question do
-  .bg-light.border-bottom
-    .row.d-flex.align-items-center.py-3
-      .col-1
-      .col-6
-        h2 List of questions
-      .col-4
-        nav.nav.justify-content-end
-          - if can?(:create, Question)
-            p= link_to 'Ask question', new_question_path, class: 'btn btn-success'
+/ - cache collection_cache_key_for :question do
+.bg-light.border-bottom
+  .row.d-flex.align-items-center.py-3
+    .col-1
+    .col-6
+      h2 List of questions
+    .col-4
+      nav.nav.justify-content-end
+        - if can?(:create, Question)
+          p= link_to 'Ask question', new_question_path, class: 'btn btn-success'
 
-  ul.list-group.list-group-flush
-    .question-errors
+ul.list-group.list-group-flush
+  .question-errors
 
-    .questions
-      = render questions
+  .questions
+    = render questions
